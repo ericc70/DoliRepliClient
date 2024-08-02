@@ -61,6 +61,7 @@ class Demande extends CommonObject
 
 
 	const STATUS_DRAFT = 0;
+	const STATUS_OPEN = 2;
 	const STATUS_VALIDATED = 1;
 	const STATUS_CANCELED = 9;
 
@@ -115,8 +116,8 @@ class Demande extends CommonObject
 		"raison" => array("type"=>"text", "label"=>"Raison", "enabled"=>"1", 'position'=>25, 'notnull'=>0, "visible"=>"-1",),
 		"ip" => array("type"=>"varchar(45)", "label"=>"Ip", "enabled"=>"1", 'position'=>30, 'notnull'=>0, "visible"=>"-1",),
 		"datetime" => array("type"=>"datetime", "label"=>"Datetime", "enabled"=>"1", 'position'=>35, 'notnull'=>0, "visible"=>"-1",),
-		"status" => array("type"=>"int", "label"=>"Status", "enabled"=>"1", 'position'=>500, 'notnull'=>0, "visible"=>"-1",),
-		"fk_source" => array("type"=>"int", "label"=>"Fksource", "enabled"=>"1", 'position'=>45, 'notnull'=>1, "visible"=>"-1", "css"=>"maxwidth500 widthcentpercentminusxx",),
+		"status" => array("type"=>"int", "label"=>"Status", "enabled"=>"1", 'position'=>500, 'notnull'=>0, "visible"=>"-1", 'arrayofkeyval'=>array('10'=>'Nouveau', '11'=>'Ouvert;', '12'=>'Ferm&eacute;'),),
+		"fk_source" => array("type"=>"integer:Source:repliclient/class/Source.class.php", "label"=>"Source", "enabled"=>"1", 'position'=>45, 'notnull'=>1, "visible"=>"-1", "css"=>"maxwidth500 widthcentpercentminusxx",),
 	);
 	public $rowid;
 	public $name;
@@ -924,20 +925,22 @@ class Demande extends CommonObject
 			global $langs;
 			//$langs->load("repliclient@repliclient");
 			$this->labelStatus[self::STATUS_DRAFT] = $langs->transnoentitiesnoconv('Draft');
-			$this->labelStatus[self::STATUS_VALIDATED] = $langs->transnoentitiesnoconv('Enabled');
+			$this->labelStatus[self::STATUS_VALIDATED] = "$langs->transnoentitiesnoconv('Enabled')";
+			$this->labelStatus[self::STATUS_OPEN] = "$langs->trans('Open')";
 			$this->labelStatus[self::STATUS_CANCELED] = $langs->transnoentitiesnoconv('Disabled');
 			$this->labelStatusShort[self::STATUS_DRAFT] = $langs->transnoentitiesnoconv('Draft');
 			$this->labelStatusShort[self::STATUS_VALIDATED] = $langs->transnoentitiesnoconv('Enabled');
 			$this->labelStatusShort[self::STATUS_CANCELED] = $langs->transnoentitiesnoconv('Disabled');
+			$this->labelStatusShort[self::STATUS_OPEN] = $langs->trans('Open');
 		}
 
 		$statusType = 'status'.$status;
-		//if ($status == self::STATUS_VALIDATED) $statusType = 'status1';
+		if ($status == self::STATUS_OPEN) $statusType = 'status12';
 		if ($status == self::STATUS_CANCELED) {
 			$statusType = 'status6';
 		}
 
-		return dolGetStatus($this->labelStatus[$status], $this->labelStatusShort[$status], '', $statusType, $mode);
+		return dolGetStatus($this->labelStatus[$status], $this->labelStatusShort[$status] , '', $statusType, $mode);
 	}
 
 	/**

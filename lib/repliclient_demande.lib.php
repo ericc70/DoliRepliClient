@@ -33,10 +33,10 @@ function demandePrepareHead($object)
 
 	$langs->load("repliclient@repliclient");
 
-	$showtabofpagecontact = 1;
-	$showtabofpagenote = 1;
-	$showtabofpagedocument = 1;
-	$showtabofpageagenda = 1;
+	$showtabofpagecontact = 0;
+	$showtabofpagenote = 0;
+	$showtabofpagedocument = 0;
+	$showtabofpageagenda = 0;
 
 	$h = 0;
 	$head = array();

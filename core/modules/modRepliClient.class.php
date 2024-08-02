@@ -111,7 +111,7 @@ class modRepliClient extends DolibarrModules
 			'theme' => 0,
 			// Set this to relative path of css file if module has its own css file
 			'css' => array(
-				//    '/repliclient/css/repliclient.css.php',
+				'/repliclient/css/repliclient.css.php',
 			),
 			// Set this to relative path of js file if module must load a js on all pages
 			'js' => array(
