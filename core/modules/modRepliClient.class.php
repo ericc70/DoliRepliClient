@@ -104,7 +104,7 @@ class modRepliClient extends DolibarrModules
 			// Set this to 1 if module has its own barcode directory (core/modules/barcode)
 			'barcode' => 0,
 			// Set this to 1 if module has its own models directory (core/modules/xxx)
-			'models' => 0,
+			'models' => 1,
 			// Set this to 1 if module has its own printing directory (core/modules/printing)
 			'printing' => 0,
 			// Set this to 1 if module has its own theme directory (theme)
@@ -266,8 +266,8 @@ class modRepliClient extends DolibarrModules
 			//  0 => array(
 			//      'label' => 'MyJob label',
 			//      'jobtype' => 'method',
-			//      'class' => '/repliclient/class/myobject.class.php',
-			//      'objectname' => 'MyObject',
+			//      'class' => '/repliclient/class/demande.class.php',
+			//      'objectname' => 'Demande',
 			//      'method' => 'doScheduledJob',
 			//      'parameters' => '',
 			//      'comment' => 'Comment',
@@ -289,24 +289,52 @@ class modRepliClient extends DolibarrModules
 		$r = 0;
 		// Add here entries to declare new permissions
 		/* BEGIN MODULEBUILDER PERMISSIONS */
-		/*
-		$o = 1;
-		$this->rights[$r][0] = $this->numero . sprintf("%02d", ($o * 10) + 1); // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Read objects of RepliClient'; // Permission label
-		$this->rights[$r][4] = 'myobject';
-		$this->rights[$r][5] = 'read'; // In php code, permission will be checked by test if ($user->hasRight('repliclient', 'myobject', 'read'))
+		$this->rights[$r][0] = $this->numero . sprintf('%02d', (0 * 10) + 0 + 1);
+		$this->rights[$r][1] = 'Read Demande object of RepliClient';
+		$this->rights[$r][4] = 'demande';
+		$this->rights[$r][5] = 'read';
 		$r++;
-		$this->rights[$r][0] = $this->numero . sprintf("%02d", ($o * 10) + 2); // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Create/Update objects of RepliClient'; // Permission label
-		$this->rights[$r][4] = 'myobject';
-		$this->rights[$r][5] = 'write'; // In php code, permission will be checked by test if ($user->hasRight('repliclient', 'myobject', 'write'))
+		$this->rights[$r][0] = $this->numero . sprintf('%02d', (0 * 10) + 1 + 1);
+		$this->rights[$r][1] = 'Create/Update Demande object of RepliClient';
+		$this->rights[$r][4] = 'demande';
+		$this->rights[$r][5] = 'write';
 		$r++;
-		$this->rights[$r][0] = $this->numero . sprintf("%02d", ($o * 10) + 3); // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Delete objects of RepliClient'; // Permission label
-		$this->rights[$r][4] = 'myobject';
-		$this->rights[$r][5] = 'delete'; // In php code, permission will be checked by test if ($user->hasRight('repliclient', 'myobject', 'delete'))
+		$this->rights[$r][0] = $this->numero . sprintf('%02d', (0 * 10) + 2 + 1);
+		$this->rights[$r][1] = 'Delete Demande object of RepliClient';
+		$this->rights[$r][4] = 'demande';
+		$this->rights[$r][5] = 'delete';
 		$r++;
-		*/
+		$this->rights[$r][0] = $this->numero . sprintf('%02d', (1 * 10) + 0 + 1);
+		$this->rights[$r][1] = 'Read Suivit object of RepliClient';
+		$this->rights[$r][4] = 'suivit';
+		$this->rights[$r][5] = 'read';
+		$r++;
+		$this->rights[$r][0] = $this->numero . sprintf('%02d', (1 * 10) + 1 + 1);
+		$this->rights[$r][1] = 'Create/Update Suivit object of RepliClient';
+		$this->rights[$r][4] = 'suivit';
+		$this->rights[$r][5] = 'write';
+		$r++;
+		$this->rights[$r][0] = $this->numero . sprintf('%02d', (1 * 10) + 2 + 1);
+		$this->rights[$r][1] = 'Delete Suivit object of RepliClient';
+		$this->rights[$r][4] = 'suivit';
+		$this->rights[$r][5] = 'delete';
+		$r++;
+		$this->rights[$r][0] = $this->numero . sprintf('%02d', (2 * 10) + 0 + 1);
+		$this->rights[$r][1] = 'Read Source object of RepliClient';
+		$this->rights[$r][4] = 'source';
+		$this->rights[$r][5] = 'read';
+		$r++;
+		$this->rights[$r][0] = $this->numero . sprintf('%02d', (2 * 10) + 1 + 1);
+		$this->rights[$r][1] = 'Create/Update Source object of RepliClient';
+		$this->rights[$r][4] = 'source';
+		$this->rights[$r][5] = 'write';
+		$r++;
+		$this->rights[$r][0] = $this->numero . sprintf('%02d', (2 * 10) + 2 + 1);
+		$this->rights[$r][1] = 'Delete Source object of RepliClient';
+		$this->rights[$r][4] = 'source';
+		$this->rights[$r][5] = 'delete';
+		$r++;
+		
 		/* END MODULEBUILDER PERMISSIONS */
 
 
@@ -326,59 +354,203 @@ class modRepliClient extends DolibarrModules
 			'langs'=>'repliclient@repliclient', // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
 			'position'=>1000 + $r,
 			'enabled'=>'isModEnabled("repliclient")', // Define condition to show or hide menu entry. Use 'isModEnabled("repliclient")' if entry must be visible if module is enabled.
-			'perms'=>'1', // Use 'perms'=>'$user->hasRight("repliclient", "myobject", "read")' if you want your menu with a permission rules
+			'perms'=>'1', // Use 'perms'=>'$user->hasRight("repliclient", "demande", "read")' if you want your menu with a permission rules
 			'target'=>'',
 			'user'=>2, // 0=Menu for internal users, 1=external users, 2=both
 		);
 		/* END MODULEBUILDER TOPMENU */
 
+		/* BEGIN MODULEBUILDER LEFTMENU DEMANDE */
+		$this->menu[$r++]=array(
+			'fk_menu'=>'fk_mainmenu=repliclient',
+			'type'=>'left',
+			'titre'=>'Demande',
+			'prefix' => img_picto('', $this->picto, 'class="paddingright pictofixedwidth valignmiddle"'),
+			'mainmenu'=>'repliclient',
+			'leftmenu'=>'demande',
+			'url'=>'/repliclient/demande_list.php',
+			'langs'=>'repliclient@repliclient',
+			'position'=>1000+$r,
+			'enabled'=>'isModEnabled("repliclient")',
+			'perms'=>'$user->hasRight("repliclient", "demande", "read")',
+			'target'=>'',
+			'user'=>2,
+			'object'=>'Demande'
+		);
+		$this->menu[$r++]=array(
+			'fk_menu'=>'fk_mainmenu=repliclient,fk_leftmenu=demande',
+			'type'=>'left',
+			'titre'=>'List Demande',
+			'mainmenu'=>'repliclient',
+			'leftmenu'=>'repliclient_demande_list',
+			'url'=>'/repliclient/demande_list.php',
+			'langs'=>'repliclient@repliclient',
+			'position'=>1000+$r,
+			'enabled'=>'isModEnabled("repliclient")',
+			'perms'=>'$user->hasRight("repliclient", "demande", "read")',
+			'target'=>'',
+			'user'=>2,
+			'object'=>'Demande'
+        );
+		$this->menu[$r++]=array(
+			'fk_menu'=>'fk_mainmenu=repliclient,fk_leftmenu=demande',
+			'type'=>'left',
+			'titre'=>'New Demande',
+			'mainmenu'=>'repliclient',
+			'leftmenu'=>'repliclient_demande_new',
+			'url'=>'/repliclient/demande_card.php?action=create',
+			'langs'=>'repliclient@repliclient',
+			'position'=>1000+$r,
+			'enabled'=>'isModEnabled("repliclient")',
+			'perms'=>'$user->hasRight("repliclient", "demande", "write")',
+			'target'=>'',
+			'user'=>2,
+			'object'=>'Demande'
+		);
+		/* END MODULEBUILDER LEFTMENU DEMANDE */
+		/* BEGIN MODULEBUILDER LEFTMENU SUIVIT */
+		$this->menu[$r++]=array(
+			'fk_menu'=>'fk_mainmenu=repliclient',
+			'type'=>'left',
+			'titre'=>'Suivit',
+			'prefix' => img_picto('', $this->picto, 'class="paddingright pictofixedwidth valignmiddle"'),
+			'mainmenu'=>'repliclient',
+			'leftmenu'=>'suivit',
+			'url'=>'/repliclient/suivit_list.php',
+			'langs'=>'repliclient@repliclient',
+			'position'=>1000+$r,
+			'enabled'=>'isModEnabled("repliclient")',
+			'perms'=>'$user->hasRight("repliclient", "suivit", "read")',
+			'target'=>'',
+			'user'=>2,
+			'object'=>'Suivit'
+		);
+		$this->menu[$r++]=array(
+			'fk_menu'=>'fk_mainmenu=repliclient,fk_leftmenu=suivit',
+			'type'=>'left',
+			'titre'=>'List Suivit',
+			'mainmenu'=>'repliclient',
+			'leftmenu'=>'repliclient_suivit_list',
+			'url'=>'/repliclient/suivit_list.php',
+			'langs'=>'repliclient@repliclient',
+			'position'=>1000+$r,
+			'enabled'=>'isModEnabled("repliclient")',
+			'perms'=>'$user->hasRight("repliclient", "suivit", "read")',
+			'target'=>'',
+			'user'=>2,
+			'object'=>'Suivit'
+        );
+		$this->menu[$r++]=array(
+			'fk_menu'=>'fk_mainmenu=repliclient,fk_leftmenu=suivit',
+			'type'=>'left',
+			'titre'=>'New Suivit',
+			'mainmenu'=>'repliclient',
+			'leftmenu'=>'repliclient_suivit_new',
+			'url'=>'/repliclient/suivit_card.php?action=create',
+			'langs'=>'repliclient@repliclient',
+			'position'=>1000+$r,
+			'enabled'=>'isModEnabled("repliclient")',
+			'perms'=>'$user->hasRight("repliclient", "suivit", "write")',
+			'target'=>'',
+			'user'=>2,
+			'object'=>'Suivit'
+		);
+		/* END MODULEBUILDER LEFTMENU SUIVIT */
+		/* BEGIN MODULEBUILDER LEFTMENU SOURCE */
+		$this->menu[$r++]=array(
+			'fk_menu'=>'fk_mainmenu=repliclient',
+			'type'=>'left',
+			'titre'=>'Source',
+			'prefix' => img_picto('', $this->picto, 'class="paddingright pictofixedwidth valignmiddle"'),
+			'mainmenu'=>'repliclient',
+			'leftmenu'=>'source',
+			'url'=>'/repliclient/source_list.php',
+			'langs'=>'repliclient@repliclient',
+			'position'=>1000+$r,
+			'enabled'=>'isModEnabled("repliclient")',
+			'perms'=>'$user->hasRight("repliclient", "source", "read")',
+			'target'=>'',
+			'user'=>2,
+			'object'=>'Source'
+		);
+		$this->menu[$r++]=array(
+			'fk_menu'=>'fk_mainmenu=repliclient,fk_leftmenu=source',
+			'type'=>'left',
+			'titre'=>'List Source',
+			'mainmenu'=>'repliclient',
+			'leftmenu'=>'repliclient_source_list',
+			'url'=>'/repliclient/source_list.php',
+			'langs'=>'repliclient@repliclient',
+			'position'=>1000+$r,
+			'enabled'=>'isModEnabled("repliclient")',
+			'perms'=>'$user->hasRight("repliclient", "source", "read")',
+			'target'=>'',
+			'user'=>2,
+			'object'=>'Source'
+        );
+		$this->menu[$r++]=array(
+			'fk_menu'=>'fk_mainmenu=repliclient,fk_leftmenu=source',
+			'type'=>'left',
+			'titre'=>'New Source',
+			'mainmenu'=>'repliclient',
+			'leftmenu'=>'repliclient_source_new',
+			'url'=>'/repliclient/source_card.php?action=create',
+			'langs'=>'repliclient@repliclient',
+			'position'=>1000+$r,
+			'enabled'=>'isModEnabled("repliclient")',
+			'perms'=>'$user->hasRight("repliclient", "source", "write")',
+			'target'=>'',
+			'user'=>2,
+			'object'=>'Source'
+		);
+		/* END MODULEBUILDER LEFTMENU SOURCE */
 		/* BEGIN MODULEBUILDER LEFTMENU MYOBJECT */
 		/*
 		$this->menu[$r++]=array(
 			'fk_menu'=>'fk_mainmenu=repliclient',      // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
 			'type'=>'left',                          // This is a Left menu entry
-			'titre'=>'MyObject',
+			'titre'=>'Demande',
 			'prefix' => img_picto('', $this->picto, 'class="pictofixedwidth valignmiddle paddingright"'),
 			'mainmenu'=>'repliclient',
-			'leftmenu'=>'myobject',
+			'leftmenu'=>'demande',
 			'url'=>'/repliclient/repliclientindex.php',
 			'langs'=>'repliclient@repliclient',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
 			'position'=>1000+$r,
 			'enabled'=>'isModEnabled("repliclient")', // Define condition to show or hide menu entry. Use 'isModEnabled("repliclient")' if entry must be visible if module is enabled.
-			'perms'=>'$user->hasRight("repliclient", "myobject", "read")',
+			'perms'=>'$user->hasRight("repliclient", "demande", "read")',
 			'target'=>'',
 			'user'=>2,				                // 0=Menu for internal users, 1=external users, 2=both
-			'object'=>'MyObject'
+			'object'=>'Demande'
 		);
 		$this->menu[$r++]=array(
-			'fk_menu'=>'fk_mainmenu=repliclient,fk_leftmenu=myobject',	    // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
+			'fk_menu'=>'fk_mainmenu=repliclient,fk_leftmenu=demande',	    // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
 			'type'=>'left',			                // This is a Left menu entry
-			'titre'=>'New_MyObject',
+			'titre'=>'New_Demande',
 			'mainmenu'=>'repliclient',
-			'leftmenu'=>'repliclient_myobject_new',
-			'url'=>'/repliclient/myobject_card.php?action=create',
+			'leftmenu'=>'repliclient_demande_new',
+			'url'=>'/repliclient/demande_card.php?action=create',
 			'langs'=>'repliclient@repliclient',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
 			'position'=>1000+$r,
 			'enabled'=>'isModEnabled("repliclient")', // Define condition to show or hide menu entry. Use 'isModEnabled("repliclient")' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms'=>'$user->hasRight("repliclient", "myobject", "write")'
+			'perms'=>'$user->hasRight("repliclient", "demande", "write")'
 			'target'=>'',
 			'user'=>2,				                // 0=Menu for internal users, 1=external users, 2=both
-			'object'=>'MyObject'
+			'object'=>'Demande'
 		);
 		$this->menu[$r++]=array(
-			'fk_menu'=>'fk_mainmenu=repliclient,fk_leftmenu=myobject',	    // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
+			'fk_menu'=>'fk_mainmenu=repliclient,fk_leftmenu=demande',	    // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
 			'type'=>'left',			                // This is a Left menu entry
-			'titre'=>'List_MyObject',
+			'titre'=>'List_Demande',
 			'mainmenu'=>'repliclient',
-			'leftmenu'=>'repliclient_myobject_list',
-			'url'=>'/repliclient/myobject_list.php',
+			'leftmenu'=>'repliclient_demande_list',
+			'url'=>'/repliclient/demande_list.php',
 			'langs'=>'repliclient@repliclient',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
 			'position'=>1000+$r,
 			'enabled'=>'isModEnabled("repliclient")', // Define condition to show or hide menu entry. Use 'isModEnabled("repliclient")' if entry must be visible if module is enabled.
-			'perms'=>'$user->hasRight("repliclient", "myobject", "read")'
+			'perms'=>'$user->hasRight("repliclient", "demande", "read")'
 			'target'=>'',
 			'user'=>2,				                // 0=Menu for internal users, 1=external users, 2=both
-			'object'=>'MyObject'
+			'object'=>'Demande'
 		);
 		*/
 		/* END MODULEBUILDER LEFTMENU MYOBJECT */
@@ -390,28 +562,28 @@ class modRepliClient extends DolibarrModules
 		/*
 		$langs->load("repliclient@repliclient");
 		$this->export_code[$r] = $this->rights_class.'_'.$r;
-		$this->export_label[$r] = 'MyObjectLines';	// Translation key (used only if key ExportDataset_xxx_z not found)
+		$this->export_label[$r] = 'DemandeLines';	// Translation key (used only if key ExportDataset_xxx_z not found)
 		$this->export_icon[$r] = $this->picto;
 		// Define $this->export_fields_array, $this->export_TypeFields_array and $this->export_entities_array
-		$keyforclass = 'MyObject'; $keyforclassfile='/repliclient/class/myobject.class.php'; $keyforelement='myobject@repliclient';
+		$keyforclass = 'Demande'; $keyforclassfile='/repliclient/class/demande.class.php'; $keyforelement='demande@repliclient';
 		include DOL_DOCUMENT_ROOT.'/core/commonfieldsinexport.inc.php';
 		//$this->export_fields_array[$r]['t.fieldtoadd']='FieldToAdd'; $this->export_TypeFields_array[$r]['t.fieldtoadd']='Text';
 		//unset($this->export_fields_array[$r]['t.fieldtoremove']);
-		//$keyforclass = 'MyObjectLine'; $keyforclassfile='/repliclient/class/myobject.class.php'; $keyforelement='myobjectline@repliclient'; $keyforalias='tl';
+		//$keyforclass = 'DemandeLine'; $keyforclassfile='/repliclient/class/demande.class.php'; $keyforelement='demandeline@repliclient'; $keyforalias='tl';
 		//include DOL_DOCUMENT_ROOT.'/core/commonfieldsinexport.inc.php';
-		$keyforselect='myobject'; $keyforaliasextra='extra'; $keyforelement='myobject@repliclient';
+		$keyforselect='demande'; $keyforaliasextra='extra'; $keyforelement='demande@repliclient';
 		include DOL_DOCUMENT_ROOT.'/core/extrafieldsinexport.inc.php';
-		//$keyforselect='myobjectline'; $keyforaliasextra='extraline'; $keyforelement='myobjectline@repliclient';
+		//$keyforselect='demandeline'; $keyforaliasextra='extraline'; $keyforelement='demandeline@repliclient';
 		//include DOL_DOCUMENT_ROOT.'/core/extrafieldsinexport.inc.php';
-		//$this->export_dependencies_array[$r] = array('myobjectline'=>array('tl.rowid','tl.ref')); // To force to activate one or several fields if we select some fields that need same (like to select a unique key if we ask a field of a child to avoid the DISTINCT to discard them, or for computed field than need several other fields)
+		//$this->export_dependencies_array[$r] = array('demandeline'=>array('tl.rowid','tl.ref')); // To force to activate one or several fields if we select some fields that need same (like to select a unique key if we ask a field of a child to avoid the DISTINCT to discard them, or for computed field than need several other fields)
 		//$this->export_special_array[$r] = array('t.field'=>'...');
 		//$this->export_examplevalues_array[$r] = array('t.field'=>'Example');
 		//$this->export_help_array[$r] = array('t.field'=>'FieldDescHelp');
 		$this->export_sql_start[$r]='SELECT DISTINCT ';
-		$this->export_sql_end[$r]  =' FROM '.MAIN_DB_PREFIX.'repliclient_myobject as t';
-		//$this->export_sql_end[$r]  .=' LEFT JOIN '.MAIN_DB_PREFIX.'repliclient_myobject_line as tl ON tl.fk_myobject = t.rowid';
+		$this->export_sql_end[$r]  =' FROM '.MAIN_DB_PREFIX.'repliclient_demande as t';
+		//$this->export_sql_end[$r]  .=' LEFT JOIN '.MAIN_DB_PREFIX.'repliclient_demande_line as tl ON tl.fk_demande = t.rowid';
 		$this->export_sql_end[$r] .=' WHERE 1 = 1';
-		$this->export_sql_end[$r] .=' AND t.entity IN ('.getEntity('myobject').')';
+		$this->export_sql_end[$r] .=' AND t.entity IN ('.getEntity('demande').')';
 		$r++; */
 		/* END MODULEBUILDER EXPORT MYOBJECT */
 
@@ -421,27 +593,27 @@ class modRepliClient extends DolibarrModules
 		/*
 		$langs->load("repliclient@repliclient");
 		$this->import_code[$r] = $this->rights_class.'_'.$r;
-		$this->import_label[$r] = 'MyObjectLines';	// Translation key (used only if key ExportDataset_xxx_z not found)
+		$this->import_label[$r] = 'DemandeLines';	// Translation key (used only if key ExportDataset_xxx_z not found)
 		$this->import_icon[$r] = $this->picto;
-		$this->import_tables_array[$r] = array('t' => MAIN_DB_PREFIX.'repliclient_myobject', 'extra' => MAIN_DB_PREFIX.'repliclient_myobject_extrafields');
+		$this->import_tables_array[$r] = array('t' => MAIN_DB_PREFIX.'repliclient_demande', 'extra' => MAIN_DB_PREFIX.'repliclient_demande_extrafields');
 		$this->import_tables_creator_array[$r] = array('t' => 'fk_user_author'); // Fields to store import user id
 		$import_sample = array();
-		$keyforclass = 'MyObject'; $keyforclassfile='/repliclient/class/myobject.class.php'; $keyforelement='myobject@repliclient';
+		$keyforclass = 'Demande'; $keyforclassfile='/repliclient/class/demande.class.php'; $keyforelement='demande@repliclient';
 		include DOL_DOCUMENT_ROOT.'/core/commonfieldsinimport.inc.php';
 		$import_extrafield_sample = array();
-		$keyforselect='myobject'; $keyforaliasextra='extra'; $keyforelement='myobject@repliclient';
+		$keyforselect='demande'; $keyforaliasextra='extra'; $keyforelement='demande@repliclient';
 		include DOL_DOCUMENT_ROOT.'/core/extrafieldsinimport.inc.php';
-		$this->import_fieldshidden_array[$r] = array('extra.fk_object' => 'lastrowid-'.MAIN_DB_PREFIX.'repliclient_myobject');
+		$this->import_fieldshidden_array[$r] = array('extra.fk_object' => 'lastrowid-'.MAIN_DB_PREFIX.'repliclient_demande');
 		$this->import_regex_array[$r] = array();
 		$this->import_examplevalues_array[$r] = array_merge($import_sample, $import_extrafield_sample);
 		$this->import_updatekeys_array[$r] = array('t.ref' => 'Ref');
 		$this->import_convertvalue_array[$r] = array(
 			't.ref' => array(
 				'rule'=>'getrefifauto',
-				'class'=>(!getDolGlobalString('REPLICLIENT_MYOBJECT_ADDON') ? 'mod_myobject_standard' : getDolGlobalString('REPLICLIENT_MYOBJECT_ADDON')),
-				'path'=>"/core/modules/repliclient/".(!getDolGlobalString('REPLICLIENT_MYOBJECT_ADDON') ? 'mod_myobject_standard' : getDolGlobalString('REPLICLIENT_MYOBJECT_ADDON')).'.php',
-				'classobject'=>'MyObject',
-				'pathobject'=>'/repliclient/class/myobject.class.php',
+				'class'=>(!getDolGlobalString('REPLICLIENT_MYOBJECT_ADDON') ? 'mod_demande_standard' : getDolGlobalString('REPLICLIENT_MYOBJECT_ADDON')),
+				'path'=>"/core/modules/repliclient/".(!getDolGlobalString('REPLICLIENT_MYOBJECT_ADDON') ? 'mod_demande_standard' : getDolGlobalString('REPLICLIENT_MYOBJECT_ADDON')).'.php',
+				'classobject'=>'Demande',
+				'pathobject'=>'/repliclient/class/demande.class.php',
 			),
 			't.fk_soc' => array('rule' => 'fetchidfromref', 'file' => '/societe/class/societe.class.php', 'class' => 'Societe', 'method' => 'fetch', 'element' => 'ThirdParty'),
 			't.fk_user_valid' => array('rule' => 'fetchidfromref', 'file' => '/user/class/user.class.php', 'class' => 'User', 'method' => 'fetch', 'element' => 'user'),
@@ -488,16 +660,16 @@ class modRepliClient extends DolibarrModules
 		// Document templates
 		$moduledir = dol_sanitizeFileName('repliclient');
 		$myTmpObjects = array();
-		$myTmpObjects['MyObject'] = array('includerefgeneration'=>0, 'includedocgeneration'=>0);
+		$myTmpObjects['Demande'] = array('includerefgeneration'=>0, 'includedocgeneration'=>0);
 
 		foreach ($myTmpObjects as $myTmpObjectKey => $myTmpObjectArray) {
-			if ($myTmpObjectKey == 'MyObject') {
+			if ($myTmpObjectKey == 'Demande') {
 				continue;
 			}
 			if ($myTmpObjectArray['includerefgeneration']) {
-				$src = DOL_DOCUMENT_ROOT.'/install/doctemplates/'.$moduledir.'/template_myobjects.odt';
+				$src = DOL_DOCUMENT_ROOT.'/install/doctemplates/'.$moduledir.'/template_demandes.odt';
 				$dirodt = DOL_DATA_ROOT.'/doctemplates/'.$moduledir;
-				$dest = $dirodt.'/template_myobjects.odt';
+				$dest = $dirodt.'/template_demandes.odt';
 
 				if (file_exists($src) && !file_exists($dest)) {
 					require_once DOL_DOCUMENT_ROOT.'/core/lib/files.lib.php';
