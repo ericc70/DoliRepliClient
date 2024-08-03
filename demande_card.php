@@ -576,7 +576,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 			*/
 			//  call
 			// if ($permissioncall) {
-				print dolGetButtonAction('', $langs->trans('ToCall'), 'default','call.php?id='.$object->id.(!empty($object->socid) ? '&socid='.$object->socid : '').'&action=call&token='.newToken(), '', $permissiontoadd);
+				print dolGetButtonAction('', $langs->trans('ToCall'), 'default','call.php?id='.$object->id.(!empty($object->socid) ? '&socid='.$object->socid : '').'&token='.newToken(), '', $permissiontoadd);
 			// }
 
 

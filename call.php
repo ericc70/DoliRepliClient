@@ -48,32 +48,35 @@
 $res = 0;
 // Try main.inc.php into web root known defined into CONTEXT_DOCUMENT_ROOT (not always defined)
 if (!$res && !empty($_SERVER["CONTEXT_DOCUMENT_ROOT"])) {
-	$res = @include $_SERVER["CONTEXT_DOCUMENT_ROOT"]."/main.inc.php";
+    $res = @include $_SERVER["CONTEXT_DOCUMENT_ROOT"] . "/main.inc.php";
 }
 // Try main.inc.php into web root detected using web root calculated from SCRIPT_FILENAME
-$tmp = empty($_SERVER['SCRIPT_FILENAME']) ? '' : $_SERVER['SCRIPT_FILENAME']; $tmp2 = realpath(__FILE__); $i = strlen($tmp) - 1; $j = strlen($tmp2) - 1;
+$tmp = empty($_SERVER['SCRIPT_FILENAME']) ? '' : $_SERVER['SCRIPT_FILENAME'];
+$tmp2 = realpath(__FILE__);
+$i = strlen($tmp) - 1;
+$j = strlen($tmp2) - 1;
 while ($i > 0 && $j > 0 && isset($tmp[$i]) && isset($tmp2[$j]) && $tmp[$i] == $tmp2[$j]) {
-	$i--;
-	$j--;
+    $i--;
+    $j--;
 }
-if (!$res && $i > 0 && file_exists(substr($tmp, 0, ($i + 1))."/main.inc.php")) {
-	$res = @include substr($tmp, 0, ($i + 1))."/main.inc.php";
+if (!$res && $i > 0 && file_exists(substr($tmp, 0, ($i + 1)) . "/main.inc.php")) {
+    $res = @include substr($tmp, 0, ($i + 1)) . "/main.inc.php";
 }
-if (!$res && $i > 0 && file_exists(dirname(substr($tmp, 0, ($i + 1)))."/main.inc.php")) {
-	$res = @include dirname(substr($tmp, 0, ($i + 1)))."/main.inc.php";
+if (!$res && $i > 0 && file_exists(dirname(substr($tmp, 0, ($i + 1))) . "/main.inc.php")) {
+    $res = @include dirname(substr($tmp, 0, ($i + 1))) . "/main.inc.php";
 }
 // Try main.inc.php using relative path
 if (!$res && file_exists("../main.inc.php")) {
-	$res = @include "../main.inc.php";
+    $res = @include "../main.inc.php";
 }
 if (!$res && file_exists("../../main.inc.php")) {
-	$res = @include "../../main.inc.php";
+    $res = @include "../../main.inc.php";
 }
 if (!$res && file_exists("../../../main.inc.php")) {
-	$res = @include "../../../main.inc.php";
+    $res = @include "../../../main.inc.php";
 }
 if (!$res) {
-	die("Include of main fails");
+    die("Include of main fails");
 }
 
 dol_include_once('/repliclient/class/suivit.class.php');
@@ -120,13 +123,13 @@ if (!$object_demande->fetch($id)) {
 // Set $enablepermissioncheck to 1 to enable a minimum low level of checks
 $enablepermissioncheck = 0;
 if ($enablepermissioncheck) {
-	$permissiontoread = $user->hasRight('repliclient', 'suivit', 'read');
-	$permissiontoadd = $user->hasRight('repliclient', 'suivit', 'write');
-	$permissionnote = $user->hasRight('repliclient', 'suivit', 'write'); // Used by the include of actions_setnotes.inc.php
+    $permissiontoread = $user->hasRight('repliclient', 'suivit', 'read');
+    $permissiontoadd = $user->hasRight('repliclient', 'suivit', 'write');
+    $permissionnote = $user->hasRight('repliclient', 'suivit', 'write'); // Used by the include of actions_setnotes.inc.php
 } else {
-	$permissiontoread = 1;
-	$permissiontoadd = 1;
-	$permissionnote = 1;
+    $permissiontoread = 1;
+    $permissiontoadd = 1;
+    $permissionnote = 1;
 }
 
 // Security check (enable the most restrictive one)
@@ -135,16 +138,77 @@ if ($enablepermissioncheck) {
 //$isdraft = (($object->status == $object::STATUS_DRAFT) ? 1 : 0);
 //restrictedArea($user, $object->module, $object->id, $object->table_element, $object->element, 'fk_soc', 'rowid', $isdraft);
 if (!isModEnabled("repliclient")) {
-	accessforbidden();
+    accessforbidden();
 }
 if (!$permissiontoread) {
-	accessforbidden();
+    accessforbidden();
 }
 
 
 /*
  * Actions
  */
+$fk_user = $user->id;
+$permissiontoadd = 1;
+$object = new Suivit($db);
+$parameters = array();
+$reshook = $hookmanager->executeHooks('doActions', $parameters, $object, $action); // Note that $action and $object may have been modified by some hooks
+if ($reshook < 0) {
+    setEventMessages($hookmanager->error, $hookmanager->errors, 'errors');
+}
+
+if (empty($reshook)) {
+
+    // $user = $user->id;
+    $backurlforlist = dol_buildpath('/repliclient/suivit_list.php', 1);
+
+    if (empty($backtopage) || ($cancel && empty($id))) {
+        if (empty($backtopage) || ($cancel && strpos($backtopage, '__ID__'))) {
+            if (empty($id) && (($action != 'add' && $action != 'create') || $cancel)) {
+                $backtopage = $backurlforlist;
+            } else {
+                $backtopage = dol_buildpath('/repliclient/suivit_card.php', 1) . '?id=' . ((!empty($id) && $id > 0) ? $id : '__ID__');
+            }
+        }
+    }
+
+    $triggermodname = 'REPLICLIENT_MYOBJECT_MODIFY'; // Name of trigger action code to execute when we modify record
+
+    $_POST['fk_demande'] = $id;
+    $_POST['datetime'] =  date('Y-m-d');
+    $_POST['datetimeday'] = date('d');
+    $_POST['datetimemonth'] = date('m');
+    $_POST['datetimeyear'] = date('Y');
+    $_POST['datetimehour'] = date('H');
+    $_POST['datetimemin'] =  date('i');
+    $_POST['datetimesec'] =  date('s');
+
+
+
+    // Actions cancel, add, update, update_extras, confirm_validate, confirm_delete, confirm_deleteline, confirm_clone, confirm_close, confirm_setdraft, confirm_reopen
+    include DOL_DOCUMENT_ROOT . '/core/actions_addupdatedelete.inc.php';
+
+    // Actions when linking object each other
+    include DOL_DOCUMENT_ROOT . '/core/actions_dellink.inc.php';
+
+    // Actions when printing a doc from card
+    include DOL_DOCUMENT_ROOT . '/core/actions_printing.inc.php';
+
+    // Action to move up and down lines of object
+    //include DOL_DOCUMENT_ROOT.'/core/actions_lineupdown.inc.php';
+
+    // Action to build doc
+    include DOL_DOCUMENT_ROOT . '/core/actions_builddoc.inc.php';
+
+    if ($action == 'set_thirdparty' && $permissiontoadd) {
+        $object->setValueFrom('fk_soc', GETPOST('fk_soc', 'int'), '', '', 'date', '', $user, $triggermodname);
+    }
+    if ($action == 'classin' && $permissiontoadd) {
+        $object->setProject(GETPOST('projectid', 'int'));
+    }
+
+    // Actions to send emails
+}
 
 
 
@@ -154,8 +218,8 @@ if (!$permissiontoread) {
 
 $form = new Form($db);
 
-$title = $langs->trans('Call').' - '.$langs->trans("call");
-$title = $object->ref." - ".$langs->trans("Call");
+$title = $langs->trans('Call') . ' - ' . $langs->trans("call");
+$title = $object->ref . " - " . $langs->trans("Call");
 $help_url = '';
 
 
@@ -163,95 +227,122 @@ llxHeader('', $title, $help_url, '', 0, 0, '', '', '', 'mod-repliclient');
 
 if ($id > 0 || !empty($ref)) {
 
-	
+    print load_fiche_titre($langs->trans("Calling"), '', 'object_' . $object->picto);
+    if ($action == 'EndCall' || $action == 'MissedCall') {
+        print "on recap et on save ";
+        $callduration = GETPOST('callduration');
+        $callnotes = GETPOST('callnotes');
+        if ($action == "EndCall") $statusappel = 1;
+        if ($action == "MissedCall") $statusappel = 2;
 
-	print load_fiche_titre($langs->trans("Calling"), '', 'object_'.$object->picto);
 
-   
+        print '<form method="POST" action="' . $_SERVER["PHP_SELF"] . '?id=' . $id . '">';
+        print '<input type="hidden" name="token" value="' . $_SESSION['newtoken'] . '">';
+        print '<input type="text" name="duree" value="' . dol_escape_htmltag($callduration) . '" readonly>';
+        print '<input type="hidden" name="status" value="' . $statusappel . '">';
+        print '<input type="hidden" name="action" value="add">';
+        print '<input type="hidden" name="fk_user" value=' . $user->id . '>';
+        print '<table class="border centpercent">';
+        print '<tr><td>' . $langs->trans("Report") . '</td>';
+        print '<td><textarea name="conterendu" rows="5" cols="50">' . dol_escape_htmltag($callnotes) . '</textarea></td></tr>';
+        print '</table>';
+        print '<div class="center">';
+        print '<input type="submit" name="" class="button" value="' . $langs->trans("Save") . '">';
+        print '</div>';
+        print '</form>';
 
-$url = dol_buildpath('/clicktodial/script/interface.php', 1) . '?action=callnumber&value=' . urlencode($object_demande->telephone);
-$url .= '&backurl=' . urlencode($_SERVER["PHP_SELF"] . '?id=' . $id);
 
 
-	print '<div class="fichecenter">';
-	print '<div class="underbanner clearboth"></div>';
+    } else {
 
-    print '<div id="chronometer">00:00:00</div>';
-	print '<div class="underbanner clearboth"></div>';
-    print '<h2>Appel en cours :'.$object_demande->telephone.'</h2>';
-// Formulaire de notes pendant l'appel
-print '<form method="POST" action="">';
-print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">'; // Ajout du jeton CSRF
-print '<input type="hidden" name="callduration" id="callduration" value="">'; // Champ caché pour la durée de l'appel
-print '<div>';
-print '<label for="callnotes">'.$langs->trans("CallNotes").'</label><br>';
-print '<textarea name="callnotes" id="callnotes" rows="5" cols="50"></textarea>';
-print '</div>';
-// btn action
-print '<div class="tabsAction">';
-// print dolGetButtonAction('', $langs->trans('EndCall'), 'default', $_SERVER["PHP_SELF"].'?id='.$object_demande->id.'&action=end&token='.newToken(), '');
-// print dolGetButtonAction('', $langs->trans('MissedCall'), 'default', $_SERVER["PHP_SELF"].'?id='.$object_demande->id.'&action=missed&token='.newToken(), '');
+
+
+
+
+
+
+        $url = dol_buildpath('/clicktodial/script/interface.php', 1) . '?action=callnumber&value=' . urlencode($object_demande->telephone);
+        $url .= '&backurl=' . urlencode($_SERVER["PHP_SELF"] . '?id=' . $id);
+
+
+        print '<div class="fichecenter">';
+        print '<div class="underbanner clearboth"></div>';
+
+        print '<div id="chronometer">00:00:00</div>';
+        print '<div class="underbanner clearboth"></div>';
+        print '<h2>Appel en cours :' . $object_demande->telephone . '</h2>';
+        // Formulaire de notes pendant l'appel
+        print '<form method="POST" action="">';
+        print '<input type="hidden" name="token" value="' . $_SESSION['newtoken'] . '">'; // Ajout du jeton CSRF
+        print '<input type="hidden" name="callduration" id="callduration" value="">'; // Champ caché pour la durée de l'appel
+        print '<div>';
+        print '<label for="callnotes">' . $langs->trans("CallNotes") . '</label><br>';
+        print '<textarea name="callnotes" id="callnotes" rows="5" cols="50"></textarea>';
+        print '</div>';
+        // btn action
+        print '<div class="tabsAction">';
+        // print dolGetButtonAction('', $langs->trans('EndCall'), 'default', $_SERVER["PHP_SELF"].'?id='.$object_demande->id.'&action=end&token='.newToken(), '');
+        // print dolGetButtonAction('', $langs->trans('MissedCall'), 'default', $_SERVER["PHP_SELF"].'?id='.$object_demande->id.'&action=missed&token='.newToken(), '');
 ?>
-<button type="submit" name="status" class="button" value="1" onclick="return setCallDuration();">
-<?php echo $langs->trans("EndCall"); ?>
-</button>
-<button type="submit" name="status" class="button" value="2" onclick="return setCallDuration();">
-<?php echo $langs->trans("FailCall"); ?>
-</button>
+        <button type="submit" name="action" class="button" value="EndCall" onclick="return setCallDuration();">
+            <?php echo $langs->trans("EndCall"); ?>
+        </button>
+        <button type="submit" name="action" class="button" value="MissedCall" onclick="return setCallDuration();">
+            <?php echo $langs->trans("FailCall"); ?>
+        </button>
 <?php
-print '</div>';
-
-	print dol_get_fiche_end();
-
+        print '</div>';
+    }
+    print dol_get_fiche_end();
 }
 ?>
 <script>
- const startTime = new Date().getTime();
-        const chronoDisplay = document.getElementById('chronometer');
+    const startTime = new Date().getTime();
+    const chronoDisplay = document.getElementById('chronometer');
 
-        function formatTimeUnit(value) {
-            return String(value).padStart(2, '0');
-        }
+    function formatTimeUnit(value) {
+        return String(value).padStart(2, '0');
+    }
 
-        function updateChronometer() {
-            const currentTime = new Date().getTime();
-            const elapsedTime = currentTime - startTime;
+    function updateChronometer() {
+        const currentTime = new Date().getTime();
+        const elapsedTime = currentTime - startTime;
 
-            const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
-            const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+        const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+        const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
 
-            chronoDisplay.innerHTML = `${formatTimeUnit(hours)}:${formatTimeUnit(minutes)}:${formatTimeUnit(seconds)}`;
-            document.getElementById('callduration').value = `${formatTimeUnit(hours)}:${formatTimeUnit(minutes)}:${formatTimeUnit(seconds)}`;
-        }
+        chronoDisplay.innerHTML = `${formatTimeUnit(hours)}:${formatTimeUnit(minutes)}:${formatTimeUnit(seconds)}`;
+        document.getElementById('callduration').value = `${formatTimeUnit(hours)}:${formatTimeUnit(minutes)}:${formatTimeUnit(seconds)}`;
+    }
 
-        setInterval(updateChronometer, 1000);
+    setInterval(updateChronometer, 1000);
 
-        function setCallDuration() {
-            const elapsedTime = new Date().getTime() - startTime;
+    function setCallDuration() {
+        const elapsedTime = new Date().getTime() - startTime;
 
-            const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
-            const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+        const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+        const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
 
-            document.getElementById('callduration').value = `${formatTimeUnit(hours)}:${formatTimeUnit(minutes)}:${formatTimeUnit(seconds)}`;
-        }
+        document.getElementById('callduration').value = `${formatTimeUnit(hours)}:${formatTimeUnit(minutes)}:${formatTimeUnit(seconds)}`;
+    }
 </script>
 <style>
-        #chronometer {
-            width: 100%;
-            font-family: 'Arial', sans-serif;
-            font-size: 2rem;
-            color: #333;
-            background-color: #f1f1f1;
-            border: 2px solid #333;
-            border-radius: 5px;
-            padding: 10px;
-            display: inline-block;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+    #chronometer {
+        width: 100%;
+        font-family: 'Arial', sans-serif;
+        font-size: 2rem;
+        color: #333;
+        background-color: #f1f1f1;
+        border: 2px solid #333;
+        border-radius: 5px;
+        padding: 10px;
+        display: inline-block;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+</style>
 <?php
 // End of page
 llxFooter();
