@@ -1170,6 +1170,15 @@ class Source extends CommonObject
 
 		return $error;
 	}
+
+
+	public function genereKeyauth(){
+
+		$length = 16; // Longueur du jeton en octets, réduite pour laisser de la place à uniqid
+	$uniqueId = uniqid('', true);
+	$randomBytes = random_bytes($length);
+	return bin2hex($randomBytes) . bin2hex($uniqueId);
+	}
 }
 
 

@@ -198,11 +198,8 @@ if ($action == 'add'){
 	// include 'lib/create_code_js.php';
 
 	// creation de key
-	$length = 16; // Longueur du jeton en octets, réduite pour laisser de la place à uniqid
-	$uniqueId = uniqid('', true);
-	$randomBytes = random_bytes($length);
-	$keyauth = bin2hex($randomBytes) . bin2hex($uniqueId);
-	$_POST['keyauth'] = $keyauth;
+
+	$_POST['keyauth'] = $object->genereKeyauth();
 	
 }
 
@@ -277,7 +274,7 @@ if ($action == 'create') {
 		accessforbidden('NotEnoughPermissions', 0, 1);
 	}
 
-
+	unset($object->fields['keyauth']);
 /**
  * remove champs content et key
  */
