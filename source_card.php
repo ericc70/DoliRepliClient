@@ -192,6 +192,21 @@ if (empty($reshook)) {
 	$triggermodname = 'REPLICLIENT_MYOBJECT_MODIFY'; // Name of trigger action code to execute when we modify record
 
 	// Actions cancel, add, update, update_extras, confirm_validate, confirm_delete, confirm_deleteline, confirm_clone, confirm_close, confirm_setdraft, confirm_reopen
+if ($action == 'add'){
+	// creation de content
+
+	// include 'lib/create_code_js.php';
+
+	// creation de key
+	$length = 16; // Longueur du jeton en octets, réduite pour laisser de la place à uniqid
+	$uniqueId = uniqid('', true);
+	$randomBytes = random_bytes($length);
+	$keyauth = bin2hex($randomBytes) . bin2hex($uniqueId);
+	$_POST['keyauth'] = $keyauth;
+	
+}
+
+
 	include DOL_DOCUMENT_ROOT.'/core/actions_addupdatedelete.inc.php';
 
 	// Actions when linking object each other
@@ -261,6 +276,11 @@ if ($action == 'create') {
 	if (empty($permissiontoadd)) {
 		accessforbidden('NotEnoughPermissions', 0, 1);
 	}
+
+
+/**
+ * remove champs content et key
+ */
 
 	print load_fiche_titre($title, '', 'object_'.$object->picto);
 
