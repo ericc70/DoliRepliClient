@@ -172,6 +172,7 @@ $error = 0;
 
 $parameters = array();
 $reshook = $hookmanager->executeHooks('doActions', $parameters, $object, $action); // Note that $action and $object may have been modified by some hooks
+
 if ($reshook < 0) {
 	setEventMessages($hookmanager->error, $hookmanager->errors, 'errors');
 }
@@ -195,16 +196,16 @@ if (empty($reshook)) {
 	include DOL_DOCUMENT_ROOT.'/core/actions_addupdatedelete.inc.php';
 
 	// Actions when linking object each other
-	include DOL_DOCUMENT_ROOT.'/core/actions_dellink.inc.php';
+	// include DOL_DOCUMENT_ROOT.'/core/actions_dellink.inc.php';
 
 	// Actions when printing a doc from card
-	include DOL_DOCUMENT_ROOT.'/core/actions_printing.inc.php';
+	// include DOL_DOCUMENT_ROOT.'/core/actions_printing.inc.php';
 
 	// Action to move up and down lines of object
 	//include DOL_DOCUMENT_ROOT.'/core/actions_lineupdown.inc.php';
 
 	// Action to build doc
-	include DOL_DOCUMENT_ROOT.'/core/actions_builddoc.inc.php';
+	// include DOL_DOCUMENT_ROOT.'/core/actions_builddoc.inc.php';
 
 	if ($action == 'set_thirdparty' && $permissiontoadd) {
 		$object->setValueFrom('fk_soc', GETPOST('fk_soc', 'int'), '', '', 'date', '', $user, $triggermodname);
@@ -597,11 +598,11 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 	
 	$sql = "SELECT s.rowid, s.datetime, s.conterendu, s.status, s.duree, u.firstname, u.lastname";
 	$sql .= " FROM ".MAIN_DB_PREFIX."repliclient_suivit as s";
-	$sql .= " LEFT JOIN ".MAIN_DB_PREFIX."user as u ON s.user_id = u.rowid";
-	$sql .= " WHERE s.demande_id = " . (int)$id;
+	$sql .= " LEFT JOIN ".MAIN_DB_PREFIX."user as u ON s.fk_user = u.rowid";
+	$sql .= " WHERE s.fk_demande = " . (int)$id;
 	$sql .= " ORDER BY s.datetime DESC";
 	
-	
+
 	$resql = $db->query($sql);
 	include 'tpl/list_view_suivit_byid.tpl.php';
 

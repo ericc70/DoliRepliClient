@@ -189,16 +189,16 @@ if (empty($reshook)) {
     include DOL_DOCUMENT_ROOT . '/core/actions_addupdatedelete.inc.php';
 
     // Actions when linking object each other
-    include DOL_DOCUMENT_ROOT . '/core/actions_dellink.inc.php';
+    // include DOL_DOCUMENT_ROOT . '/core/actions_dellink.inc.php';
 
     // Actions when printing a doc from card
-    include DOL_DOCUMENT_ROOT . '/core/actions_printing.inc.php';
+    // include DOL_DOCUMENT_ROOT . '/core/actions_printing.inc.php';
 
     // Action to move up and down lines of object
     //include DOL_DOCUMENT_ROOT.'/core/actions_lineupdown.inc.php';
 
     // Action to build doc
-    include DOL_DOCUMENT_ROOT . '/core/actions_builddoc.inc.php';
+    // include DOL_DOCUMENT_ROOT . '/core/actions_builddoc.inc.php';
 
     if ($action == 'set_thirdparty' && $permissiontoadd) {
         $object->setValueFrom('fk_soc', GETPOST('fk_soc', 'int'), '', '', 'date', '', $user, $triggermodname);
@@ -229,7 +229,7 @@ if ($id > 0 || !empty($ref)) {
 
     print load_fiche_titre($langs->trans("Calling"), '', 'object_' . $object->picto);
     if ($action == 'EndCall' || $action == 'MissedCall') {
-        print "on recap et on save ";
+ 
         $callduration = GETPOST('callduration');
         $callnotes = GETPOST('callnotes');
         if ($action == "EndCall") $statusappel = 1;

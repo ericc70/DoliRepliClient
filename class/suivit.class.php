@@ -110,7 +110,7 @@ class Suivit extends CommonObject
 	 */
 	public $fields=array(
 		"rowid" => array("type"=>"int", "label"=>"TechnicalID", "enabled"=>"1", 'position'=>10, 'notnull'=>1, "visible"=>"-1",),
-		"fk_demande" => array("type"=>"int", "label"=>"Fkdemande", "enabled"=>"1", 'position'=>15, 'notnull'=>1, "visible"=>"-1", "css"=>"maxwidth500 widthcentpercentminusxx",),
+		"fk_demande" => array("type"=>"integer:Demande:repliclient/class/demande.class.php", "label"=>"Demande ref", "enabled"=>"1", 'position'=>15, 'notnull'=>1, "visible"=>"-1", "css"=>"maxwidth500 widthcentpercentminusxx",),
 		"fk_user" => array("type"=>"integer:User:user/class/user.class.php", "label"=>"User", "enabled"=>"1", 'position'=>20, 'notnull'=>1, "visible"=>"-1", "css"=>"maxwidth500 widthcentpercentminusxx", "csslist"=>"tdoverflowmax150",),
 		"datetime" => array("type"=>"datetime", "label"=>"Datetime", "enabled"=>"1", 'position'=>25, 'notnull'=>0, "visible"=>"-1",),
 		"conterendu" => array("type"=>"text", "label"=>"Conterendu", "enabled"=>"1", 'position'=>30, 'notnull'=>0, "visible"=>"-1",),

@@ -110,7 +110,7 @@ class Demande extends CommonObject
 	 * @var array  Array with all fields and their property. Do not use it as a static var. It may be modified by constructor.
 	 */
 	public $fields=array(
-		"rowid" => array("type"=>"int", "label"=>"TechnicalID", "enabled"=>"1", 'position'=>10, 'notnull'=>1, "visible"=>"-1",),
+		"rowid" => array("type"=>"int", "label"=>"TechnicalID", "enabled"=>"1", 'position'=>10, 'notnull'=>1, "visible"=>"-1", 'showoncombobox'=>'1'),
 		"name" => array("type"=>"varchar(255)", "label"=>"Name", "enabled"=>"1", 'position'=>15, 'notnull'=>1, "visible"=>"-1",),
 		"telephone" => array("type"=>"varchar(20)", "label"=>"Telephone", "enabled"=>"1", 'position'=>20, 'notnull'=>0, "visible"=>"-1",),
 		"raison" => array("type"=>"text", "label"=>"Raison", "enabled"=>"1", 'position'=>25, 'notnull'=>0, "visible"=>"-1",),
