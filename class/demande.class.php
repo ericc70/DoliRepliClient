@@ -60,8 +60,12 @@ class Demande extends CommonObject
 	public $picto = 'fa-file';
 
 
-	const STATUS_DRAFT = 0;
-	const STATUS_OPEN = 2;
+	const STATUS_DRAFT = 1;
+
+	const STATUS_NEW = 10;
+	const STATUS_OPEN = 11;
+	const STATUS_CLOSED = 12;
+
 	const STATUS_VALIDATED = 1;
 	const STATUS_CANCELED = 9;
 
@@ -867,6 +871,9 @@ class Demande extends CommonObject
 		if (property_exists($this, 'label')) {
 			$return .= ' <div class="inline-block opacitymedium valignmiddle tdoverflowmax100">'.$this->label.'</div>';
 		}
+		if (property_exists($this, 'name')) {
+			$return .= ' <div class="inline-block  valignmiddle tdoverflowmax100">'.$this->name.'</div>';
+		}
 		if (property_exists($this, 'thirdparty') && is_object($this->thirdparty)) {
 			$return .= '<br><div class="info-box-ref tdoverflowmax150">'.$this->thirdparty->getNomUrl(1).'</div>';
 		}
@@ -926,16 +933,22 @@ class Demande extends CommonObject
 			//$langs->load("repliclient@repliclient");
 			$this->labelStatus[self::STATUS_DRAFT] = $langs->transnoentitiesnoconv('Draft');
 			$this->labelStatus[self::STATUS_VALIDATED] = "$langs->transnoentitiesnoconv('Enabled')";
-			$this->labelStatus[self::STATUS_OPEN] = "$langs->trans('Open')";
+			$this->labelStatus[self::STATUS_NEW] = $langs->transnoentitiesnoconv('New');
+			$this->labelStatus[self::STATUS_OPEN] = $langs->transnoentitiesnoconv('Open');
+			$this->labelStatus[self::STATUS_CLOSED] = $langs->transnoentitiesnoconv('Closed');
 			$this->labelStatus[self::STATUS_CANCELED] = $langs->transnoentitiesnoconv('Disabled');
 			$this->labelStatusShort[self::STATUS_DRAFT] = $langs->transnoentitiesnoconv('Draft');
 			$this->labelStatusShort[self::STATUS_VALIDATED] = $langs->transnoentitiesnoconv('Enabled');
 			$this->labelStatusShort[self::STATUS_CANCELED] = $langs->transnoentitiesnoconv('Disabled');
-			$this->labelStatusShort[self::STATUS_OPEN] = $langs->trans('Open');
+			$this->labelStatusShort[self::STATUS_OPEN] = $langs->transnoentitiesnoconv('Open');
+			$this->labelStatusShort[self::STATUS_NEW] = $langs->transnoentitiesnoconv('New');
+			$this->labelStatusShort[self::STATUS_CLOSED] = $langs->transnoentitiesnoconv('Closed');
 		}
 
 		$statusType = 'status'.$status;
-		if ($status == self::STATUS_OPEN) $statusType = 'status12';
+		if ($status == self::STATUS_OPEN) $statusType = 'status4';
+		if ($status == self::STATUS_NEW) $statusType = 'status3';
+		if ($status == self::STATUS_CLOSED) $statusType = 'status5';
 		if ($status == self::STATUS_CANCELED) {
 			$statusType = 'status6';
 		}

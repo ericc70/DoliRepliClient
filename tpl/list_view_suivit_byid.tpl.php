@@ -22,7 +22,14 @@ if ($resql) {
         print '<td>'.dol_escape_htmltag($obj->firstname).' '.dol_escape_htmltag($obj->lastname).'</td>';
         print '<td>'.nl2br(dol_escape_htmltag($obj->conterendu)).'</td>';
         print '<td>'.dol_escape_htmltag($obj->duree).' </td>';
-        print '<td>'.dol_escape_htmltag($obj->status).' </td>';
+        print '<td>';
+        if($obj->status == 1) {
+             print '<span title="Ouvert" aria-label="Ouvert" class="badge badge-dot badge-status4 classfortooltip badge-status"></span>' ;
+        }
+        if($obj->status == 2) {
+             print '<span title="Absence" aria-label="Absence" class="badge badge-dot badge-status10 classfortooltip badge-status"></span>' ;
+        }
+             print '</td>';
         print '</tr>';
         $i++;
     }

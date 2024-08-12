@@ -112,3 +112,12 @@ div.mainmenu.repliclient {
 .badge-status12{
 	background-color:red;
 }
+
+.badge-status11{
+	background-color:red;
+}
+
+.badge-status10{
+	background-color:red;
+	color: yellow;
+}

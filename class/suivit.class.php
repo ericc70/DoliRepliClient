@@ -61,8 +61,12 @@ class Suivit extends CommonObject
 
 
 	const STATUS_DRAFT = 0;
-	const STATUS_VALIDATED = 1;
+	const STATUS_VALIDATED = 100;
+
 	const STATUS_CANCELED = 9;
+	const STATUS_APPEL_OK = 1;
+	const STATUS_APPEL_FAIL = 2;
+
 
 	/**
 	 *  'type' field format:
@@ -924,13 +928,18 @@ class Suivit extends CommonObject
 			$this->labelStatus[self::STATUS_DRAFT] = $langs->transnoentitiesnoconv('Draft');
 			$this->labelStatus[self::STATUS_VALIDATED] = $langs->transnoentitiesnoconv('Enabled');
 			$this->labelStatus[self::STATUS_CANCELED] = $langs->transnoentitiesnoconv('Disabled');
+			$this->labelStatus[self::STATUS_APPEL_OK] = $langs->transnoentitiesnoconv('AppelOk');
+			$this->labelStatus[self::STATUS_APPEL_FAIL] = $langs->transnoentitiesnoconv('AppelAbs');
 			$this->labelStatusShort[self::STATUS_DRAFT] = $langs->transnoentitiesnoconv('Draft');
 			$this->labelStatusShort[self::STATUS_VALIDATED] = $langs->transnoentitiesnoconv('Enabled');
 			$this->labelStatusShort[self::STATUS_CANCELED] = $langs->transnoentitiesnoconv('Disabled');
+			$this->labelStatusShort[self::STATUS_CANCELED] = $langs->transnoentitiesnoconv('AppelOk');
+			$this->labelStatusShort[self::STATUS_CANCELED] = $langs->transnoentitiesnoconv('AppelAbs');
 		}
 
 		$statusType = 'status'.$status;
-		//if ($status == self::STATUS_VALIDATED) $statusType = 'status1';
+		if ($status == self::STATUS_APPEL_OK) $statusType = 'status4';
+		if ($status == self::STATUS_APPEL_FAIL) $statusType = 'status10';
 		if ($status == self::STATUS_CANCELED) {
 			$statusType = 'status6';
 		}
