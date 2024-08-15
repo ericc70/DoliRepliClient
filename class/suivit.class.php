@@ -734,6 +734,7 @@ class Suivit extends CommonObject
 	{
 		global $conf, $langs, $hookmanager;
 
+		
 		if (!empty($conf->dol_no_mouse_hover)) {
 			$notooltip = 1; // Force disable tooltips
 		}

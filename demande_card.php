@@ -81,6 +81,7 @@ require_once DOL_DOCUMENT_ROOT.'/core/class/html.formcompany.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.formfile.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.formprojet.class.php';
 dol_include_once('/repliclient/class/demande.class.php');
+dol_include_once('/repliclient/class/command_demande.php');
 dol_include_once('/repliclient/lib/repliclient_demande.lib.php');
 
 // Load translation files required by the page
@@ -107,6 +108,8 @@ if (!empty($backtopagejsfields)) {
 
 // Initialize technical objects
 $object = new Demande($db);
+
+$commandDemande = new CommandDemande($db);
 $extrafields = new ExtraFields($db);
 $diroutputmassaction = $conf->repliclient->dir_output.'/temp/massgeneration/'.$user->id;
 $hookmanager->initHooks(array($object->element.'card', 'globalcard')); // Note that conf->hooks_modules contains array
@@ -129,8 +132,21 @@ if (empty($action) && empty($id) && empty($ref)) {
 	$action = 'view';
 }
 
+
 // Load object
 include DOL_DOCUMENT_ROOT.'/core/actions_fetchobject.inc.php'; // Must be include, not include_once.
+
+
+if ($object->status == 10) {
+ 
+
+    $commandDemande->toggleStatut(11, $id);
+
+    unset($object);
+    $object = new Demande($db);
+	include DOL_DOCUMENT_ROOT.'/core/actions_fetchobject.inc.php'; // Must be include, not include_once.
+}
+
 
 // There is several ways to check permission.
 // Set $enablepermissioncheck to 1 to enable a minimum low level of checks
@@ -164,6 +180,8 @@ if (!$permissiontoread) {
 }
 
 $error = 0;
+
+
 
 
 // ------------------------------------------------

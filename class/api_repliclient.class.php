@@ -53,8 +53,9 @@ class Repliclient extends DolibarrApi
      *
      * @url    POST submit/
      */
-    public function post( $request_data)
+    public function post( $request_data )
     {
+		// var_dump($request_data);
 
         if ($this->isValid($request_data)) {
             if (!$this->isValidSource($request_data)) {
@@ -63,9 +64,9 @@ class Repliclient extends DolibarrApi
 
             // Sanitize and prepare data for saving
             $datapost = [];
-            $datapost['name'] = strip_tags($request_data['request_data']['name']);
-            $datapost['telephone'] = strip_tags($request_data['request_data']['telephone']);
-            $datapost['raison'] = strip_tags($request_data['request_data']['raison']);
+            $datapost['name'] = strip_tags($request_data['name']);
+            $datapost['telephone'] = strip_tags($request_data['telephone']);
+            $datapost['raison'] = strip_tags($request_data['raison']);
             $datapost['ip'] = strip_tags($_SERVER['REMOTE_ADDR']); // Get the client's IP
             $datapost['datetime'] = date('Y-m-d H:i:s'); // Current datetime
             $datapost['status'] = 10;
@@ -100,11 +101,11 @@ class Repliclient extends DolibarrApi
     protected function isValid(array $data) : bool
     {
         // Validate required fields
-        return isset($data['request_data']['name'], $data['request_data']['telephone'], $data['request_data']['raison'], $data['request_data']['authkey']) &&
-               !empty($data['request_data']['name']) &&
-               !empty($data['request_data']['telephone']) &&
-               !empty($data['request_data']['raison']) &&
-               !empty($data['request_data']['authkey']);
+        return isset($data['name'], $data['telephone'], $data['raison'], $data['authkey']) &&
+               !empty($data['name']) &&
+               !empty($data['telephone']) &&
+               !empty($data['raison']) &&
+               !empty($data['authkey']);
 
 		// return true;
     }
@@ -112,7 +113,7 @@ class Repliclient extends DolibarrApi
     protected function isValidSource( $data) : int|bool
     {
 		
-        $authkey = $this->db->escape($data['request_data']['authkey']);
+        $authkey = $this->db->escape($data['authkey']);
         $sql = "SELECT rowid FROM " . MAIN_DB_PREFIX . "repliclient_source WHERE keyauth = '$authkey'";
 
         // Execute the query

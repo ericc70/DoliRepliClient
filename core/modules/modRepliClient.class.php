@@ -115,11 +115,12 @@ class modRepliClient extends DolibarrModules
 			),
 			// Set this to relative path of js file if module must load a js on all pages
 			'js' => array(
-				//   '/repliclient/js/repliclient.js.php',
+				'/repliclient/js/repliclient.js.php',
 			),
 			// Set here all hooks context managed by module. To find available hook context, make a "grep -r '>initHooks(' *" on source code. You can also set hook context to 'all'
 			/* BEGIN MODULEBUILDER HOOKSCONTEXTS */
 			'hooks' => array(
+				// 'menu'  => 'core/hooks/modRepliclientHook.class.php'
 				//   'data' => array(
 				//       'hookcontext1',
 				//       'hookcontext2',
@@ -707,4 +708,8 @@ class modRepliClient extends DolibarrModules
 		$sql = array();
 		return $this->_remove($sql, $options);
 	}
+
+
+
+
 }

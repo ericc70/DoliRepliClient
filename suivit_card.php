@@ -107,14 +107,14 @@ if (!empty($backtopagejsfields)) {
 
 // Initialize technical objects
 $object = new Suivit($db);
-$extrafields = new ExtraFields($db);
+// $extrafields = new ExtraFields($db);
 $diroutputmassaction = $conf->repliclient->dir_output.'/temp/massgeneration/'.$user->id;
 $hookmanager->initHooks(array($object->element.'card', 'globalcard')); // Note that conf->hooks_modules contains array
 
 // Fetch optionals attributes and labels
-$extrafields->fetch_name_optionals_label($object->table_element);
+// $extrafields->fetch_name_optionals_label($object->table_element);
 
-$search_array_options = $extrafields->getOptionalsFromPost($object->table_element, '', 'search_');
+// $search_array_options = $extrafields->getOptionalsFromPost($object->table_element, '', 'search_');
 
 // Initialize array of search criteria
 $search_all = trim(GETPOST("search_all", 'alpha'));
@@ -198,13 +198,13 @@ if (empty($reshook)) {
 	include DOL_DOCUMENT_ROOT.'/core/actions_dellink.inc.php';
 
 	// Actions when printing a doc from card
-	include DOL_DOCUMENT_ROOT.'/core/actions_printing.inc.php';
+	// include DOL_DOCUMENT_ROOT.'/core/actions_printing.inc.php';
 
 	// Action to move up and down lines of object
 	//include DOL_DOCUMENT_ROOT.'/core/actions_lineupdown.inc.php';
 
 	// Action to build doc
-	include DOL_DOCUMENT_ROOT.'/core/actions_builddoc.inc.php';
+	// include DOL_DOCUMENT_ROOT.'/core/actions_builddoc.inc.php';
 
 	if ($action == 'set_thirdparty' && $permissiontoadd) {
 		$object->setValueFrom('fk_soc', GETPOST('fk_soc', 'int'), '', '', 'date', '', $user, $triggermodname);
@@ -233,9 +233,9 @@ $formproject = new FormProjets($db);
 
 $title = $langs->trans("Suivit")." - ".$langs->trans('Card');
 //$title = $object->ref." - ".$langs->trans('Card');
-if ($action == 'create') {
-	$title = $langs->trans("NewObject", $langs->transnoentitiesnoconv("Suivit"));
-}
+// if ($action == 'create') {
+// 	$title = $langs->trans("NewObject", $langs->transnoentitiesnoconv("Suivit"));
+// }
 $help_url = '';
 
 llxHeader('', $title, $help_url, '', 0, 0, '', '', '', 'mod-repliclient page-card');
@@ -257,50 +257,50 @@ llxHeader('', $title, $help_url, '', 0, 0, '', '', '', 'mod-repliclient page-car
 
 
 // Part to create
-if ($action == 'create') {
-	if (empty($permissiontoadd)) {
-		accessforbidden('NotEnoughPermissions', 0, 1);
-	}
+// if ($action == 'create') {
+// 	if (empty($permissiontoadd)) {
+// 		accessforbidden('NotEnoughPermissions', 0, 1);
+// 	}
 
-	print load_fiche_titre($title, '', 'object_'.$object->picto);
+// 	print load_fiche_titre($title, '', 'object_'.$object->picto);
 
-	print '<form method="POST" action="'.$_SERVER["PHP_SELF"].'">';
-	print '<input type="hidden" name="token" value="'.newToken().'">';
-	print '<input type="hidden" name="action" value="add">';
-	if ($backtopage) {
-		print '<input type="hidden" name="backtopage" value="'.$backtopage.'">';
-	}
-	if ($backtopageforcancel) {
-		print '<input type="hidden" name="backtopageforcancel" value="'.$backtopageforcancel.'">';
-	}
-	if ($backtopagejsfields) {
-		print '<input type="hidden" name="backtopagejsfields" value="'.$backtopagejsfields.'">';
-	}
-	if ($dol_openinpopup) {
-		print '<input type="hidden" name="dol_openinpopup" value="'.$dol_openinpopup.'">';
-	}
+// 	print '<form method="POST" action="'.$_SERVER["PHP_SELF"].'">';
+// 	print '<input type="hidden" name="token" value="'.newToken().'">';
+// 	print '<input type="hidden" name="action" value="add">';
+// 	if ($backtopage) {
+// 		print '<input type="hidden" name="backtopage" value="'.$backtopage.'">';
+// 	}
+// 	if ($backtopageforcancel) {
+// 		print '<input type="hidden" name="backtopageforcancel" value="'.$backtopageforcancel.'">';
+// 	}
+// 	if ($backtopagejsfields) {
+// 		print '<input type="hidden" name="backtopagejsfields" value="'.$backtopagejsfields.'">';
+// 	}
+// 	if ($dol_openinpopup) {
+// 		print '<input type="hidden" name="dol_openinpopup" value="'.$dol_openinpopup.'">';
+// 	}
 
-	print dol_get_fiche_head(array(), '');
+// 	print dol_get_fiche_head(array(), '');
 
 
-	print '<table class="border centpercent tableforfieldcreate">'."\n";
+// 	print '<table class="border centpercent tableforfieldcreate">'."\n";
 
-	// Common attributes
-	include DOL_DOCUMENT_ROOT.'/core/tpl/commonfields_add.tpl.php';
+// 	// Common attributes
+// 	include DOL_DOCUMENT_ROOT.'/core/tpl/commonfields_add.tpl.php';
 
-	// Other attributes
-	include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_add.tpl.php';
+// 	// Other attributes
+// 	include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_add.tpl.php';
 
-	print '</table>'."\n";
+// 	print '</table>'."\n";
 
-	print dol_get_fiche_end();
+// 	print dol_get_fiche_end();
 
-	print $form->buttonsSaveCancel("Create");
+// 	print $form->buttonsSaveCancel("Create");
 
-	print '</form>';
+// 	print '</form>';
 
-	//dol_set_focus('input[name="ref"]');
-}
+// 	//dol_set_focus('input[name="ref"]');
+// }
 
 // Part to edit record
 if (($id || $ref) && $action == 'edit') {
@@ -325,7 +325,7 @@ if (($id || $ref) && $action == 'edit') {
 	include DOL_DOCUMENT_ROOT.'/core/tpl/commonfields_edit.tpl.php';
 
 	// Other attributes
-	include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_edit.tpl.php';
+	// include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_edit.tpl.php';
 
 	print '</table>';
 
@@ -354,37 +354,32 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 	}
 
 	// Clone confirmation
-	if ($action == 'clone') {
-		// Create an array for form
-		$formquestion = array();
-		$formconfirm = $form->formconfirm($_SERVER["PHP_SELF"].'?id='.$object->id, $langs->trans('ToClone'), $langs->trans('ConfirmCloneAsk', $object->ref), 'confirm_clone', $formquestion, 'yes', 1);
-	}
 
 	// Confirmation of action xxxx (You can use it for xxx = 'close', xxx = 'reopen', ...)
-	if ($action == 'xxx') {
-		$text = $langs->trans('ConfirmActionSuivit', $object->ref);
-		/*if (isModEnabled('notification'))
-		{
-			require_once DOL_DOCUMENT_ROOT . '/core/class/notify.class.php';
-			$notify = new Notify($db);
-			$text .= '<br>';
-			$text .= $notify->confirmMessage('MYOBJECT_CLOSE', $object->socid, $object);
-		}*/
+	// if ($action == 'xxx') {
+	// 	$text = $langs->trans('ConfirmActionSuivit', $object->ref);
+	// 	/*if (isModEnabled('notification'))
+	// 	{
+	// 		require_once DOL_DOCUMENT_ROOT . '/core/class/notify.class.php';
+	// 		$notify = new Notify($db);
+	// 		$text .= '<br>';
+	// 		$text .= $notify->confirmMessage('MYOBJECT_CLOSE', $object->socid, $object);
+	// 	}*/
 
-		$formquestion = array();
+	// 	$formquestion = array();
 
-		/*
-		$forcecombo=0;
-		if ($conf->browser->name == 'ie') $forcecombo = 1;	// There is a bug in IE10 that make combo inside popup crazy
-		$formquestion = array(
-			// 'text' => $langs->trans("ConfirmClone"),
-			// array('type' => 'checkbox', 'name' => 'clone_content', 'label' => $langs->trans("CloneMainAttributes"), 'value' => 1),
-			// array('type' => 'checkbox', 'name' => 'update_prices', 'label' => $langs->trans("PuttingPricesUpToDate"), 'value' => 1),
-			// array('type' => 'other',    'name' => 'idwarehouse',   'label' => $langs->trans("SelectWarehouseForStockDecrease"), 'value' => $formproduct->selectWarehouses(GETPOST('idwarehouse')?GETPOST('idwarehouse'):'ifone', 'idwarehouse', '', 1, 0, 0, '', 0, $forcecombo))
-		);
-		*/
-		$formconfirm = $form->formconfirm($_SERVER["PHP_SELF"].'?id='.$object->id, $langs->trans('XXX'), $text, 'confirm_xxx', $formquestion, 0, 1, 220);
-	}
+	// 	/*
+	// 	$forcecombo=0;
+	// 	if ($conf->browser->name == 'ie') $forcecombo = 1;	// There is a bug in IE10 that make combo inside popup crazy
+	// 	$formquestion = array(
+	// 		// 'text' => $langs->trans("ConfirmClone"),
+	// 		// array('type' => 'checkbox', 'name' => 'clone_content', 'label' => $langs->trans("CloneMainAttributes"), 'value' => 1),
+	// 		// array('type' => 'checkbox', 'name' => 'update_prices', 'label' => $langs->trans("PuttingPricesUpToDate"), 'value' => 1),
+	// 		// array('type' => 'other',    'name' => 'idwarehouse',   'label' => $langs->trans("SelectWarehouseForStockDecrease"), 'value' => $formproduct->selectWarehouses(GETPOST('idwarehouse')?GETPOST('idwarehouse'):'ifone', 'idwarehouse', '', 1, 0, 0, '', 0, $forcecombo))
+	// 	);
+	// 	*/
+	// 	$formconfirm = $form->formconfirm($_SERVER["PHP_SELF"].'?id='.$object->id, $langs->trans('XXX'), $text, 'confirm_xxx', $formquestion, 0, 1, 220);
+	// }
 
 	// Call Hook formConfirm
 	$parameters = array('formConfirm' => $formconfirm, 'lineid' => $lineid);
@@ -438,7 +433,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 	$morehtmlref .= '</div>';
 
 
-	dol_banner_tab($object, 'ref', $linkback, 1, 'ref', 'ref', $morehtmlref);
+	dol_banner_tab($object, 'id', $linkback, 1, 'rowid', 'rowid', $morehtmlref);
 
 
 	print '<div class="fichecenter">';
@@ -453,7 +448,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 	include DOL_DOCUMENT_ROOT.'/core/tpl/commonfields_view.tpl.php';
 
 	// Other attributes. Fields from hook formObjectOptions and Extrafields.
-	include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_view.tpl.php';
+	//include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_view.tpl.php';
 
 	print '</table>';
 	print '</div>';
@@ -530,32 +525,27 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 
 		if (empty($reshook)) {
 			// Send
-			if (empty($user->socid)) {
-				print dolGetButtonAction('', $langs->trans('SendMail'), 'default', $_SERVER["PHP_SELF"].'?id='.$object->id.'&action=presend&token='.newToken().'&mode=init#formmailbeforetitle');
-			}
-
+		
 			// Back to draft
-			if ($object->status == $object::STATUS_VALIDATED) {
-				print dolGetButtonAction('', $langs->trans('SetToDraft'), 'default', $_SERVER["PHP_SELF"].'?id='.$object->id.'&action=confirm_setdraft&confirm=yes&token='.newToken(), '', $permissiontoadd);
-			}
+		
 
 			// Modify
 			print dolGetButtonAction('', $langs->trans('Modify'), 'default', $_SERVER["PHP_SELF"].'?id='.$object->id.'&action=edit&token='.newToken(), '', $permissiontoadd);
 
 			// Validate
-			if ($object->status == $object::STATUS_DRAFT) {
-				if (empty($object->table_element_line) || (is_array($object->lines) && count($object->lines) > 0)) {
-					print dolGetButtonAction('', $langs->trans('Validate'), 'default', $_SERVER['PHP_SELF'].'?id='.$object->id.'&action=confirm_validate&confirm=yes&token='.newToken(), '', $permissiontoadd);
-				} else {
-					$langs->load("errors");
-					print dolGetButtonAction($langs->trans("ErrorAddAtLeastOneLineFirst"), $langs->trans("Validate"), 'default', '#', '', 0);
-				}
-			}
+			// if ($object->status == $object::STATUS_DRAFT) {
+			// 	if (empty($object->table_element_line) || (is_array($object->lines) && count($object->lines) > 0)) {
+			// 		print dolGetButtonAction('', $langs->trans('Validate'), 'default', $_SERVER['PHP_SELF'].'?id='.$object->id.'&action=confirm_validate&confirm=yes&token='.newToken(), '', $permissiontoadd);
+			// 	} else {
+			// 		$langs->load("errors");
+			// 		print dolGetButtonAction($langs->trans("ErrorAddAtLeastOneLineFirst"), $langs->trans("Validate"), 'default', '#', '', 0);
+			// 	}
+			// }
 
 			// Clone
-			if ($permissiontoadd) {
-				print dolGetButtonAction('', $langs->trans('ToClone'), 'default', $_SERVER['PHP_SELF'].'?id='.$object->id.(!empty($object->socid) ? '&socid='.$object->socid : '').'&action=clone&token='.newToken(), '', $permissiontoadd);
-			}
+			// if ($permissiontoadd) {
+			// 	print dolGetButtonAction('', $langs->trans('ToClone'), 'default', $_SERVER['PHP_SELF'].'?id='.$object->id.(!empty($object->socid) ? '&socid='.$object->socid : '').'&action=clone&token='.newToken(), '', $permissiontoadd);
+			// }
 
 			/*
 			// Disable / Enable
@@ -589,59 +579,59 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 	}
 
 
-	// Select mail models is same action as presend
-	if (GETPOST('modelselected')) {
-		$action = 'presend';
-	}
+	// // Select mail models is same action as presend
+	// if (GETPOST('modelselected')) {
+	// 	$action = 'presend';
+	// }
 
-	if ($action != 'presend') {
-		print '<div class="fichecenter"><div class="fichehalfleft">';
-		print '<a name="builddoc"></a>'; // ancre
+	// if ($action != 'presend') {
+	// 	print '<div class="fichecenter"><div class="fichehalfleft">';
+	// 	print '<a name="builddoc"></a>'; // ancre
 
-		$includedocgeneration = 0;
+	// 	$includedocgeneration = 0;
 
-		// Documents
-		if ($includedocgeneration) {
-			$objref = dol_sanitizeFileName($object->ref);
-			$relativepath = $objref.'/'.$objref.'.pdf';
-			$filedir = $conf->repliclient->dir_output.'/'.$object->element.'/'.$objref;
-			$urlsource = $_SERVER["PHP_SELF"]."?id=".$object->id;
-			$genallowed = $permissiontoread; // If you can read, you can build the PDF to read content
-			$delallowed = $permissiontoadd; // If you can create/edit, you can remove a file on card
-			print $formfile->showdocuments('repliclient:Suivit', $object->element.'/'.$objref, $filedir, $urlsource, $genallowed, $delallowed, $object->model_pdf, 1, 0, 0, 28, 0, '', '', '', $langs->defaultlang);
-		}
+	// 	// Documents
+	// 	if ($includedocgeneration) {
+	// 		$objref = dol_sanitizeFileName($object->ref);
+	// 		$relativepath = $objref.'/'.$objref.'.pdf';
+	// 		$filedir = $conf->repliclient->dir_output.'/'.$object->element.'/'.$objref;
+	// 		$urlsource = $_SERVER["PHP_SELF"]."?id=".$object->id;
+	// 		$genallowed = $permissiontoread; // If you can read, you can build the PDF to read content
+	// 		$delallowed = $permissiontoadd; // If you can create/edit, you can remove a file on card
+	// 		print $formfile->showdocuments('repliclient:Suivit', $object->element.'/'.$objref, $filedir, $urlsource, $genallowed, $delallowed, $object->model_pdf, 1, 0, 0, 28, 0, '', '', '', $langs->defaultlang);
+	// 	}
 
-		// Show links to link elements
-		$linktoelem = $form->showLinkToObjectBlock($object, null, array('suivit'));
-		$somethingshown = $form->showLinkedObjectBlock($object, $linktoelem);
+	// 	// Show links to link elements
+	// 	$linktoelem = $form->showLinkToObjectBlock($object, null, array('suivit'));
+	// 	$somethingshown = $form->showLinkedObjectBlock($object, $linktoelem);
 
 
-		print '</div><div class="fichehalfright">';
+	// 	print '</div><div class="fichehalfright">';
 
-		$MAXEVENT = 10;
+	// 	$MAXEVENT = 10;
 
-		$morehtmlcenter = dolGetButtonTitle($langs->trans('SeeAll'), '', 'fa fa-bars imgforviewmode', dol_buildpath('/repliclient/suivit_agenda.php', 1).'?id='.$object->id);
+	// 	$morehtmlcenter = dolGetButtonTitle($langs->trans('SeeAll'), '', 'fa fa-bars imgforviewmode', dol_buildpath('/repliclient/suivit_agenda.php', 1).'?id='.$object->id);
 
-		// List of actions on element
-		include_once DOL_DOCUMENT_ROOT.'/core/class/html.formactions.class.php';
-		$formactions = new FormActions($db);
-		$somethingshown = $formactions->showactions($object, $object->element.'@'.$object->module, (is_object($object->thirdparty) ? $object->thirdparty->id : 0), 1, '', $MAXEVENT, '', $morehtmlcenter);
+	// 	// List of actions on element
+	// 	include_once DOL_DOCUMENT_ROOT.'/core/class/html.formactions.class.php';
+	// 	$formactions = new FormActions($db);
+	// 	$somethingshown = $formactions->showactions($object, $object->element.'@'.$object->module, (is_object($object->thirdparty) ? $object->thirdparty->id : 0), 1, '', $MAXEVENT, '', $morehtmlcenter);
 
-		print '</div></div>';
-	}
+	// 	print '</div></div>';
+	// }
 
 	//Select mail models is same action as presend
-	if (GETPOST('modelselected')) {
-		$action = 'presend';
-	}
+	// if (GETPOST('modelselected')) {
+	// 	$action = 'presend';
+	// }
 
-	// Presend form
-	$modelmail = 'suivit';
-	$defaulttopic = 'InformationMessage';
-	$diroutput = $conf->repliclient->dir_output;
-	$trackid = 'suivit'.$object->id;
+	// // Presend form
+	// $modelmail = 'suivit';
+	// $defaulttopic = 'InformationMessage';
+	// $diroutput = $conf->repliclient->dir_output;
+	// $trackid = 'suivit'.$object->id;
 
-	include DOL_DOCUMENT_ROOT.'/core/tpl/card_presend.tpl.php';
+	// include DOL_DOCUMENT_ROOT.'/core/tpl/card_presend.tpl.php';
 }
 
 // End of page

@@ -816,7 +816,7 @@ class Source extends CommonObject
 
 		if ($withpicto != 2) {
 
-			if (strpos($_SERVER['REQUEST_URI'], 'repliclient/source_card.php') ){
+			if (  strpos($_SERVER['REQUEST_URI'], 'repliclient/source_card.php') || strpos($_SERVER['REQUEST_URI'], 'repliclient/source_list.php')){
 				$result .= $this->id;
 			}else{	$result .= $this->name;}
 		

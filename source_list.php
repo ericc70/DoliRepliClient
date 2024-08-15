@@ -810,7 +810,12 @@ while ($i < $imaxinloop) {
 					print $object->getLibStatut(5);
 				} elseif ($key == 'rowid') {
 					print $object->showOutputField($val, $key, $object->id, '');
-				} else {
+				} 
+				
+				elseif($key== 'keyauth'){
+					print '**********';
+				}
+				else {
 					print $object->showOutputField($val, $key, $object->$key, '');
 				}
 				print '</td>';
