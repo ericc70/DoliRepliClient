@@ -59,7 +59,7 @@ class Repliclient extends DolibarrApi
 
         if ($this->isValid($request_data)) {
             if (!$this->isValidSource($request_data)) {
-                throw new RestException(403);
+                throw new RestException(403  , 'Unauthorised');
             }
 
             // Sanitize and prepare data for saving
@@ -85,7 +85,7 @@ class Repliclient extends DolibarrApi
 				return array(
 					'success' => array(
 						'code' => 400,
-						'message' => 'Error'
+						'message' => 'Bad Request'
 					)
 				);
 			
@@ -94,7 +94,7 @@ class Repliclient extends DolibarrApi
 
 
         } else {
-            throw new RestException(400, 'Invalid request data');
+            throw new RestException(400, 'Bad Request');
         }
     }
 

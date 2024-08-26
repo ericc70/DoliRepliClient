@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Vérifiez si le span cible et le parent existent
             if (targetSpan && parentDiv) {
                 // Insérez la nouvelle div avant le span cible
-				// targetSpan.innerHTML ="<span>5</span>";
+			//	 targetSpan.innerHTML ="<span>5</span>";
 				targetSpan.insertAdjacentHTML("afterbegin", "<span class ='badge badge-dot badge-status10 ' ></span>"  )
            
             } else {

@@ -30,30 +30,31 @@ function repliclientAdminPrepareHead()
 {
 	global $langs, $conf;
 
-	// global $db;
-	// $extrafields = new ExtraFields($db);
-	// $extrafields->fetch_name_optionals_label('myobject');
+	 global $db;
+	 $extrafields = new ExtraFields($db);
+	$extrafields->fetch_name_optionals_label('myobject');
 
 	$langs->load("repliclient@repliclient");
 
 	$h = 0;
 	$head = array();
 
-	$head[$h][0] = dol_buildpath("/repliclient/admin/setup.php", 1);
-	$head[$h][1] = $langs->trans("Settings");
-	$head[$h][2] = 'settings';
-	$h++;
 
-	/*
-	$head[$h][0] = dol_buildpath("/repliclient/admin/myobject_extrafields.php", 1);
+	
+	$head[$h][0] = dol_buildpath("/repliclient/admin/demande_extrafields.php", 1);
 	$head[$h][1] = $langs->trans("ExtraFields");
 	$nbExtrafields = is_countable($extrafields->attributes['myobject']['label']) ? count($extrafields->attributes['myobject']['label']) : 0;
 	if ($nbExtrafields > 0) {
 		$head[$h][1] .= ' <span class="badge">' . $nbExtrafields . '</span>';
 	}
-	$head[$h][2] = 'myobject_extrafields';
+	$head[$h][2] = 'demande_extrafields';
 	$h++;
-	*/
+	
+
+	$head[$h][0] = dol_buildpath("/repliclient/admin/documentation.php", 1);
+	$head[$h][1] = $langs->trans("Documentation");
+	$head[$h][2] = 'documentation';
+	$h++;
 
 	$head[$h][0] = dol_buildpath("/repliclient/admin/about.php", 1);
 	$head[$h][1] = $langs->trans("About");

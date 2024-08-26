@@ -108,7 +108,6 @@ if (!empty($backtopagejsfields)) {
 
 // Initialize technical objects
 $object = new Demande($db);
-
 $commandDemande = new CommandDemande($db);
 $extrafields = new ExtraFields($db);
 $diroutputmassaction = $conf->repliclient->dir_output.'/temp/massgeneration/'.$user->id;
@@ -133,20 +132,17 @@ if (empty($action) && empty($id) && empty($ref)) {
 }
 
 
+
 // Load object
 include DOL_DOCUMENT_ROOT.'/core/actions_fetchobject.inc.php'; // Must be include, not include_once.
 
 
 if ($object->status == 10) {
- 
-
     $commandDemande->toggleStatut(11, $id);
+	header("Location: " . $_SERVER['PHP_SELF'] . "?" . $_SERVER['QUERY_STRING']);
+exit();
 
-    unset($object);
-    $object = new Demande($db);
-	include DOL_DOCUMENT_ROOT.'/core/actions_fetchobject.inc.php'; // Must be include, not include_once.
 }
-
 
 // There is several ways to check permission.
 // Set $enablepermissioncheck to 1 to enable a minimum low level of checks
@@ -237,11 +233,26 @@ if (empty($reshook)) {
 		$object->setProject(GETPOST('projectid', 'int'));
 	}
 
+
+	if($action == 'toclose')
+	{
+	// Exécuter l'action associée à 'toclose'
+    $commandDemande->toggleStatut(12, $id);
+
+    // Supprimer 'action=toclose' de la chaîne de requête
+    $newQueryString = preg_replace('/(\?|&)action=toclose(&|$)/', '$1', $_SERVER['QUERY_STRING']);
+    
+    // Rediriger vers la nouvelle URL sans 'action=toclose'
+    header("Location: " . $_SERVER['PHP_SELF'] . ($newQueryString ? '?' . $newQueryString : ''));
+    exit();
+	
+
+	}
 	// Actions to send emails
-	$triggersendname = 'REPLICLIENT_MYOBJECT_SENTBYMAIL';
-	$autocopy = 'MAIN_MAIL_AUTOCOPY_MYOBJECT_TO';
-	$trackid = 'demande'.$object->id;
-	include DOL_DOCUMENT_ROOT.'/core/actions_sendmails.inc.php';
+	// $triggersendname = 'REPLICLIENT_MYOBJECT_SENTBYMAIL';
+	// $autocopy = 'MAIN_MAIL_AUTOCOPY_MYOBJECT_TO';
+	// $trackid = 'demande'.$object->id;
+	// include DOL_DOCUMENT_ROOT.'/core/actions_sendmails.inc.php';
 }
 
 
@@ -257,9 +268,9 @@ $formproject = new FormProjets($db);
 
 $title = $langs->trans("Demande")." - ".$langs->trans('Card');
 //$title = $object->ref." - ".$langs->trans('Card');
-if ($action == 'create') {
-	$title = $langs->trans("NewObject", $langs->transnoentitiesnoconv("Demande"));
-}
+// if ($action == 'create') {
+// 	$title = $langs->trans("NewObject", $langs->transnoentitiesnoconv("Demande"));
+// }
 $help_url = '';
 
 llxHeader('', $title, $help_url, '', 0, 0, '', '', '', 'mod-repliclient page-card');
@@ -281,50 +292,50 @@ llxHeader('', $title, $help_url, '', 0, 0, '', '', '', 'mod-repliclient page-car
 
 
 // Part to create
-if ($action == 'create') {
-	if (empty($permissiontoadd)) {
-		accessforbidden('NotEnoughPermissions', 0, 1);
-	}
+// if ($action == 'create') {
+// 	if (empty($permissiontoadd)) {
+// 		accessforbidden('NotEnoughPermissions', 0, 1);
+// 	}
 
-	print load_fiche_titre($title, '', 'object_'.$object->picto);
+// 	print load_fiche_titre($title, '', 'object_'.$object->picto);
 
-	print '<form method="POST" action="'.$_SERVER["PHP_SELF"].'">';
-	print '<input type="hidden" name="token" value="'.newToken().'">';
-	print '<input type="hidden" name="action" value="add">';
-	if ($backtopage) {
-		print '<input type="hidden" name="backtopage" value="'.$backtopage.'">';
-	}
-	if ($backtopageforcancel) {
-		print '<input type="hidden" name="backtopageforcancel" value="'.$backtopageforcancel.'">';
-	}
-	if ($backtopagejsfields) {
-		print '<input type="hidden" name="backtopagejsfields" value="'.$backtopagejsfields.'">';
-	}
-	if ($dol_openinpopup) {
-		print '<input type="hidden" name="dol_openinpopup" value="'.$dol_openinpopup.'">';
-	}
+// 	print '<form method="POST" action="'.$_SERVER["PHP_SELF"].'">';
+// 	print '<input type="hidden" name="token" value="'.newToken().'">';
+// 	print '<input type="hidden" name="action" value="add">';
+// 	if ($backtopage) {
+// 		print '<input type="hidden" name="backtopage" value="'.$backtopage.'">';
+// 	}
+// 	if ($backtopageforcancel) {
+// 		print '<input type="hidden" name="backtopageforcancel" value="'.$backtopageforcancel.'">';
+// 	}
+// 	if ($backtopagejsfields) {
+// 		print '<input type="hidden" name="backtopagejsfields" value="'.$backtopagejsfields.'">';
+// 	}
+// 	if ($dol_openinpopup) {
+// 		print '<input type="hidden" name="dol_openinpopup" value="'.$dol_openinpopup.'">';
+// 	}
 
-	print dol_get_fiche_head(array(), '');
+// 	print dol_get_fiche_head(array(), '');
 
 
-	print '<table class="border centpercent tableforfieldcreate">'."\n";
+// 	print '<table class="border centpercent tableforfieldcreate">'."\n";
 
-	// Common attributes
-	include DOL_DOCUMENT_ROOT.'/core/tpl/commonfields_add.tpl.php';
+// 	// Common attributes
+// 	include DOL_DOCUMENT_ROOT.'/core/tpl/commonfields_add.tpl.php';
 
-	// Other attributes
-	include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_add.tpl.php';
+// 	// Other attributes
+// 	include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_add.tpl.php';
 
-	print '</table>'."\n";
+// 	print '</table>'."\n";
 
-	print dol_get_fiche_end();
+// 	print dol_get_fiche_end();
 
-	print $form->buttonsSaveCancel("Create");
+// 	print $form->buttonsSaveCancel("Create");
 
-	print '</form>';
+// 	print '</form>';
 
-	//dol_set_focus('input[name="ref"]');
-}
+// 	//dol_set_focus('input[name="ref"]');
+// }
 
 // Part to edit record
 if (($id || $ref) && $action == 'edit') {
@@ -567,14 +578,14 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 			print dolGetButtonAction('', $langs->trans('Modify'), 'default', $_SERVER["PHP_SELF"].'?id='.$object->id.'&action=edit&token='.newToken(), '', $permissiontoadd);
 
 			// Validate
-			if ($object->status == $object::STATUS_DRAFT) {
-				if (empty($object->table_element_line) || (is_array($object->lines) && count($object->lines) > 0)) {
-					print dolGetButtonAction('', $langs->trans('Validate'), 'default', $_SERVER['PHP_SELF'].'?id='.$object->id.'&action=confirm_validate&confirm=yes&token='.newToken(), '', $permissiontoadd);
-				} else {
-					$langs->load("errors");
-					print dolGetButtonAction($langs->trans("ErrorAddAtLeastOneLineFirst"), $langs->trans("Validate"), 'default', '#', '', 0);
-				}
-			}
+			// if ($object->status == $object::STATUS_DRAFT) {
+			// 	if (empty($object->table_element_line) || (is_array($object->lines) && count($object->lines) > 0)) {
+			// 		print dolGetButtonAction('', $langs->trans('Validate'), 'default', $_SERVER['PHP_SELF'].'?id='.$object->id.'&action=confirm_validate&confirm=yes&token='.newToken(), '', $permissiontoadd);
+			// 	} else {
+			// 		$langs->load("errors");
+			// 		print dolGetButtonAction($langs->trans("ErrorAddAtLeastOneLineFirst"), $langs->trans("Validate"), 'default', '#', '', 0);
+			// 	}
+			// }
 
 			// Clone
 			// if ($permissiontoadd) {
@@ -600,8 +611,15 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 			*/
 			//  call
 			// if ($permissioncall) {
+			if ($object->status != 12) {
 				print dolGetButtonAction('', $langs->trans('ToCall'), 'default','call.php?id='.$object->id.(!empty($object->socid) ? '&socid='.$object->socid : '').'&token='.newToken(), '', $permissiontoadd);
-			// }
+			}
+			if($object->status != 12)
+			{
+				print dolGetButtonAction('', $langs->trans('close'), 'default',$_SERVER['PHP_SELF'].'?id='.$object->id.'&action=toclose&token='.newToken(), '', $permissiontoadd);
+
+			}
+		//} else {
 
 
 			// Delete (with preloaded confirm popup)

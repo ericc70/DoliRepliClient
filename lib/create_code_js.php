@@ -52,6 +52,7 @@ $content_formhtlml ="
 
 // traitement
 
+
 $content_traitement = "
 
 document.getElementById('dolirepliclient').addEventListener('submit', async (event) => {
@@ -80,7 +81,7 @@ document.getElementById('dolirepliclient').addEventListener('submit', async (eve
             body: JSON.stringify(formData)
         });
 
-        if (!response.ok) {
+        if (!response.succes) {
             console.error('Erreur lors de l\'envoi des données');
             return;
         }
