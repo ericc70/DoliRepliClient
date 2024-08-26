@@ -393,21 +393,21 @@ class modRepliClient extends DolibarrModules
 			'user'=>2,
 			'object'=>'Demande'
         );
-		$this->menu[$r++]=array(
-			'fk_menu'=>'fk_mainmenu=repliclient,fk_leftmenu=demande',
-			'type'=>'left',
-			'titre'=>'New Demande',
-			'mainmenu'=>'repliclient',
-			'leftmenu'=>'repliclient_demande_new',
-			'url'=>'/repliclient/demande_card.php?action=create',
-			'langs'=>'repliclient@repliclient',
-			'position'=>1000+$r,
-			'enabled'=>'isModEnabled("repliclient")',
-			'perms'=>'$user->hasRight("repliclient", "demande", "write")',
-			'target'=>'',
-			'user'=>2,
-			'object'=>'Demande'
-		);
+		// $this->menu[$r++]=array(
+		// 	'fk_menu'=>'fk_mainmenu=repliclient,fk_leftmenu=demande',
+		// 	'type'=>'left',
+		// 	'titre'=>'New Demande',
+		// 	'mainmenu'=>'repliclient',
+		// 	'leftmenu'=>'repliclient_demande_new',
+		// 	'url'=>'/repliclient/demande_card.php?action=create',
+		// 	'langs'=>'repliclient@repliclient',
+		// 	'position'=>1000+$r,
+		// 	'enabled'=>'isModEnabled("repliclient")',
+		// 	'perms'=>'$user->hasRight("repliclient", "demande", "write")',
+		// 	'target'=>'',
+		// 	'user'=>2,
+		// 	'object'=>'Demande'
+		// );
 		/* END MODULEBUILDER LEFTMENU DEMANDE */
 		/* BEGIN MODULEBUILDER LEFTMENU SUIVIT */
 		$this->menu[$r++]=array(
@@ -441,21 +441,21 @@ class modRepliClient extends DolibarrModules
 			'user'=>2,
 			'object'=>'Suivit'
         );
-		$this->menu[$r++]=array(
-			'fk_menu'=>'fk_mainmenu=repliclient,fk_leftmenu=suivit',
-			'type'=>'left',
-			'titre'=>'New Suivit',
-			'mainmenu'=>'repliclient',
-			'leftmenu'=>'repliclient_suivit_new',
-			'url'=>'/repliclient/suivit_card.php?action=create',
-			'langs'=>'repliclient@repliclient',
-			'position'=>1000+$r,
-			'enabled'=>'isModEnabled("repliclient")',
-			'perms'=>'$user->hasRight("repliclient", "suivit", "write")',
-			'target'=>'',
-			'user'=>2,
-			'object'=>'Suivit'
-		);
+		// $this->menu[$r++]=array(
+		// 	'fk_menu'=>'fk_mainmenu=repliclient,fk_leftmenu=suivit',
+		// 	'type'=>'left',
+		// 	'titre'=>'New Suivit',
+		// 	'mainmenu'=>'repliclient',
+		// 	'leftmenu'=>'repliclient_suivit_new',
+		// 	'url'=>'/repliclient/suivit_card.php?action=create',
+		// 	'langs'=>'repliclient@repliclient',
+		// 	'position'=>1000+$r,
+		// 	'enabled'=>'isModEnabled("repliclient")',
+		// 	'perms'=>'$user->hasRight("repliclient", "suivit", "write")',
+		// 	'target'=>'',
+		// 	'user'=>2,
+		// 	'object'=>'Suivit'
+		// );
 		/* END MODULEBUILDER LEFTMENU SUIVIT */
 		/* BEGIN MODULEBUILDER LEFTMENU SOURCE */
 		$this->menu[$r++]=array(

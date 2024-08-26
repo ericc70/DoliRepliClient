@@ -637,7 +637,7 @@ foreach ($object->fields as $key => $val) {
 	}
 }
 // Extra fields
-include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_list_search_input.tpl.php';
+// include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_list_search_input.tpl.php';
 
 // Fields from hook
 $parameters = array('arrayfields'=>$arrayfields);
@@ -684,7 +684,7 @@ foreach ($object->fields as $key => $val) {
 	}
 }
 // Extra fields
-include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_list_search_title.tpl.php';
+// include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_list_search_title.tpl.php';
 // Hook fields
 $parameters = array('arrayfields' => $arrayfields, 'param' => $param, 'sortfield' => $sortfield, 'sortorder' => $sortorder, 'totalarray' => &$totalarray);
 $reshook = $hookmanager->executeHooks('printFieldListTitle', $parameters, $object, $action); // Note that $action and $object may have been modified by hook
@@ -810,7 +810,13 @@ while ($i < $imaxinloop) {
 					print $object->getLibStatut(5);
 				} elseif ($key == 'rowid') {
 					print $object->showOutputField($val, $key, $object->id, '');
-				} else {
+				} elseif($key == 'conterendu'){
+					// $chaine= strlen($object->$key);
+					print substr($object->$key, 0, 97);
+				
+					if(strlen($object->$key) > 97 )	{print "...";}
+				}
+				 else {
 					print $object->showOutputField($val, $key, $object->$key, '');
 				}
 				print '</td>';
