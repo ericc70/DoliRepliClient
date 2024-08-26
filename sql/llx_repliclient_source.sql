@@ -19,7 +19,7 @@ CREATE TABLE llx_repliclient_source(
 	rowid int AUTO_INCREMENT PRIMARY KEY NOT NULL, 
 	name varchar(255) NOT NULL, 
 	url varchar(255), 
-	content text,
+
 	keyauth varchar(255)
 	-- END MODULEBUILDER FIELDS
 ) ENGINE=innodb;

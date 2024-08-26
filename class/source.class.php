@@ -112,13 +112,13 @@ class Source extends CommonObject
 		"rowid" => array("type"=>"int", "label"=>"TechnicalID", "enabled"=>"1", 'position'=>10, 'notnull'=>1, "visible"=>"-1",),
 		"name" => array("type"=>"varchar(255)", "label"=>"Name", "enabled"=>"1", 'position'=>15, 'notnull'=>1, "visible"=>"-1", 'showoncombobox'=>'1'),
 		"url" => array("type"=>"varchar(255)", "label"=>"Url", "enabled"=>"1", 'position'=>20, 'notnull'=>0, "visible"=>"-1",),
-		"content" => array("type"=>"text", "label"=>"Content", "enabled"=>"1", 'position'=>25, 'notnull'=>0, "visible"=>"-1", ),
+		
 		"keyauth" => array("type"=>"varchar(255)", "label"=>"key", "enabled"=>"1", 'position'=>30, 'notnull'=>1, "visible"=>"-1",),
 	);
 	public $rowid;
 	public $name;
 	public $url;
-	public $content;
+
 	public $keyauth;
 	// END MODULEBUILDER PROPERTIES
 

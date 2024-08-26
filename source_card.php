@@ -276,7 +276,7 @@ if ($action == 'create') {
 
 	unset($object->fields['keyauth']);
 /**
- * remove champs content et key
+ * remove champs  key
  */
 
 	print load_fiche_titre($title, '', 'object_'.$object->picto);
