@@ -135,10 +135,9 @@ if ($action == "countbystatus") {
     if (!$status) {
         throw new Exception('status not found');
     }
- 
-    if (!is_int($status) ) {
-        throw new Exception('status not num.');
-    }
+	
+	  // Convertir $status en entier
+	  $status = (int) $status;
 
     $validStatusValues = [10, 11, 12];
     if (!in_array($status, $validStatusValues)) {

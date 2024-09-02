@@ -866,9 +866,9 @@ class Suivit extends CommonObject
 		if ($selected >= 0) {
 			$return .= '<input id="cb'.$this->id.'" class="flat checkforselect fright" type="checkbox" name="toselect[]" value="'.$this->id.'"'.($selected ? ' checked="checked"' : '').'>';
 		}
-		if (property_exists($this, 'label')) {
-			$return .= ' <div class="inline-block opacitymedium valignmiddle tdoverflowmax100">'.$this->label.'</div>';
-		}
+		// if (property_exists($this, 'label')) {
+			// $return .= ' <div class="inline-block opacitymedium valignmiddle tdoverflowmax100">'.$this->fk_user .'</div>';
+		// }
 		if (property_exists($this, 'thirdparty') && is_object($this->thirdparty)) {
 			$return .= '<br><div class="info-box-ref tdoverflowmax150">'.$this->thirdparty->getNomUrl(1).'</div>';
 		}
@@ -879,6 +879,8 @@ class Suivit extends CommonObject
 		if (method_exists($this, 'getLibStatut')) {
 			$return .= '<br><div class="info-box-status">'.$this->getLibStatut(3).'</div>';
 		}
+		$return .= '<br><div class="">'.$this->duree.'</div>';
+
 		$return .= '</div>';
 		$return .= '</div>';
 		$return .= '</div>';

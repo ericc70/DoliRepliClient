@@ -744,7 +744,9 @@ while ($i < $imaxinloop) {
 	if ($mode == 'kanban') {
 		if ($i == 0) {
 			print '<tr class="trkanban"><td colspan="'.$savnbfield.'">';
+			
 			print '<div class="box-flex-container kanban">';
+		
 		}
 		// Output Kanban
 		$selected = -1;
@@ -754,7 +756,8 @@ while ($i < $imaxinloop) {
 				$selected = 1;
 			}
 		}
-		//print $object->getKanbanView('', array('thirdparty'=>$object->thirdparty, 'selected' => $selected));
+	
+		// print $object->getKanbanView('', array('thirdparty'=>$object->thirdparty, 'selected' => $selected));
 		print $object->getKanbanView('', array('selected' => $selected));
 		if ($i == ($imaxinloop - 1)) {
 			print '</div>';

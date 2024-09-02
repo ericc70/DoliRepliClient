@@ -95,8 +95,7 @@ if (empty($dolibarr_nocache)) {
 }
 ?>
 
-document.addEventListener('DOMContentLoaded', () => {
-    const notifyNewContact = () => {
+  const notifyNewContact = (nb) => {
         console.log('hello');
 
         // Sélectionnez le conteneur cible
@@ -122,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (targetSpan && parentDiv) {
                 // Insérez la nouvelle div avant le span cible
 			//	 targetSpan.innerHTML ="<span>5</span>";
-				targetSpan.insertAdjacentHTML("afterbegin", "<span class ='badge badge-dot badge-status10 ' ></span>"  )
+				targetSpan.insertAdjacentHTML("afterbegin", "<span class ='badge badge-dot badge-status10 ' >"+ nb +"</span>"  )
            
             } else {
                 if (!targetSpan) {
@@ -137,10 +136,56 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Appel de la fonction
-    notifyNewContact();
-});
+    const fetchNb = async (etat) => {
+        try {
+            // Définir l'URL courante du navigateur
+        const currentUrl = new URL(window.location.href);
 
+        // Obtenez la base de l'URL (protocole, domaine, et port)
+        const baseUrl = window.location.origin;
+
+        // Récupérez le chemin de l'URL actuelle
+        const pathName = currentUrl.pathname;
+
+        // Vérifiez si "htdocs" est présent dans le chemin
+        let updatedBaseUrl;
+        if (pathName.includes('htdocs')) {
+            // Si "htdocs" est présent, ajoutez-le à la base URL
+            updatedBaseUrl = `${baseUrl}/htdocs`;
+        } else {
+            // Sinon, utilisez la base URL actuelle
+            updatedBaseUrl = baseUrl;
+        }
+
+
+        // Construire l'URL complète pour le fetch
+        const fetchUrl = `${updatedBaseUrl}/custom/repliclient/query_demande.php?action=countbystatus&status=${etat}`;
+
+
+            const response = await fetch( fetchUrl);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+    
+            const data = await response.json();  
+            
+
+            return data;
+        } catch (error) {
+            console.error('Une erreur est survenue :', error.message);
+        }
+    };
+
+  
+document.addEventListener('DOMContentLoaded', async () => {
+    // Attendre la résolution de la promesse
+    const nbdemande = await fetchNb(10);
+    console.log(nbdemande); 
+    if (nbdemande > 0) {
+        notifyNewContact(nbdemande);
+    }
+});
  
 
 
