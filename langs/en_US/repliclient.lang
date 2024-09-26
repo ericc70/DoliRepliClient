@@ -54,3 +54,27 @@ MyPageName = My page name
 MyWidget = My widget
 MyWidgetDescription = My widget description
 Open = Open
+
+Open = Open
+ToCall = To Calll
+
+EndCall= End
+FailCall= Fail
+
+Calling = Calling
+CallNotes = Notes
+
+duration = Call duration
+
+
+AppelAbsence = Fail
+AppelOk = Succes
+
+ListSuivi= History
+
+DateTime = Datetime
+
+NewKey = Regenerate key
+ActionSupp = Additional actions
+
+RepliClientArea = Home RepliClient

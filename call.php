@@ -167,7 +167,7 @@ if (empty($reshook)) {
             if (empty($id) && (($action != 'add' && $action != 'create') || $cancel)) {
                 $backtopage = $backurlforlist;
             } else {
-                $backtopage = dol_buildpath('/repliclient/suivit_card.php', 1) . '?id=' . ((!empty($id) && $id > 0) ? $id : '__ID__');
+                $backtopage = dol_buildpath('/repliclient/demande_card.php', 1) . '?id=' . ((!empty($id) && $id > 0) ? $id : '__ID__');
             }
         }
     }
@@ -238,11 +238,14 @@ if ($id > 0 || !empty($ref)) {
 
         print '<form method="POST" action="' . $_SERVER["PHP_SELF"] . '?id=' . $id . '">';
         print '<input type="hidden" name="token" value="' . $_SESSION['newtoken'] . '">';
-        print '<input type="text" name="duree" value="' . dol_escape_htmltag($callduration) . '" readonly>';
+      
         print '<input type="hidden" name="status" value="' . $statusappel . '">';
         print '<input type="hidden" name="action" value="add">';
         print '<input type="hidden" name="fk_user" value=' . $user->id . '>';
         print '<table class="border centpercent">';
+
+        print '<tr><td>' . $langs->trans("duration") . '</td>';
+        print '<td> <input type="text" name="duree" value="' . dol_escape_htmltag($callduration) . '" readonly></td></tr>';
         print '<tr><td>' . $langs->trans("Report") . '</td>';
         print '<td><textarea name="conterendu" rows="5" cols="50">' . dol_escape_htmltag($callnotes) . '</textarea></td></tr>';
         print '</table>';
@@ -257,15 +260,30 @@ if ($id > 0 || !empty($ref)) {
 
 
 
+        /***
+         * here your method to call
+         */
 
-
-
-
+        // Construire l'URL pour click-to-dial
         $url = dol_buildpath('/clicktodial/script/interface.php', 1) . '?action=callnumber&value=' . urlencode($object_demande->telephone);
         $url .= '&backurl=' . urlencode($_SERVER["PHP_SELF"] . '?id=' . $id);
 
+        // Exécuter l'URL via file_get_contents()
+        $response = @file_get_contents($url);
+
+        
+        
+        /** ----- ---- */
 
         print '<div class="fichecenter">';
+
+        if ($response === false) {
+             setEventMessage('Une erreur est survenue.', 'errors');
+        
+        } else {
+               setEventMessage('Appel en cours...');
+        }
+        
         print '<div class="underbanner clearboth"></div>';
 
         print '<div id="chronometer">00:00:00</div>';

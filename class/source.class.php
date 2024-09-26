@@ -861,16 +861,9 @@ class Source extends CommonObject
 		if ($selected >= 0) {
 			$return .= '<input id="cb'.$this->id.'" class="flat checkforselect fright" type="checkbox" name="toselect[]" value="'.$this->id.'"'.($selected ? ' checked="checked"' : '').'>';
 		}
-		if (property_exists($this, 'label')) {
-			$return .= ' <div class="inline-block opacitymedium valignmiddle tdoverflowmax100">'.$this->label.'</div>';
-		}
-		if (property_exists($this, 'thirdparty') && is_object($this->thirdparty)) {
-			$return .= '<br><div class="info-box-ref tdoverflowmax150">'.$this->thirdparty->getNomUrl(1).'</div>';
-		}
-		if (property_exists($this, 'amount')) {
-			$return .= '<br>';
-			$return .= '<span class="info-box-label amount">'.price($this->amount, 0, $langs, 1, -1, -1, $conf->currency).'</span>';
-		}
+		$return .= '<br> <div class="inline-block opacitymedium valignmiddle tdoverflowmax100">'.$this->name.'</div>';
+		$return .= '<br> <div class="inline-block opacitymedium valignmiddle tdoverflowmax100">'.$this->url.'</div>';
+		$return .= '<br><div class="">'.$this->duree.'</div>';
 		if (method_exists($this, 'getLibStatut')) {
 			$return .= '<br><div class="info-box-status">'.$this->getLibStatut(3).'</div>';
 		}
@@ -1177,7 +1170,7 @@ class Source extends CommonObject
 		$length = 16; // Longueur du jeton en octets, réduite pour laisser de la place à uniqid
 	$uniqueId = uniqid('', true);
 	$randomBytes = random_bytes($length);
-	return bin2hex($randomBytes) . bin2hex($uniqueId);
+	return sha1(bin2hex($randomBytes) . bin2hex($uniqueId));
 	}
 }
 

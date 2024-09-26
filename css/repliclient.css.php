@@ -105,19 +105,28 @@ div.mainmenu.repliclient {
 }
 
 
-.body{
-	background: red;
+
+
+
+.badge-status-1{
+	background-color:red;
+	color: #fff;
+	font-weight: bold ;
 }
 
-.badge-status12{
-	background-color:red;
+
+.fichecenter.information {
+    background-color: #fff88d;;
+    border: 1px solid #b3a805;
+    padding: 10px;
+	color: #333
+
 }
 
-.badge-status11{
-	background-color:red;
-}
+.repli_information {
+    background-color: #fff88d;;
+    border: 1px solid #b3a805;
+    padding: 10px;
+	color: #333
 
-.badge-status10{
-	background-color:red;
-	color: yellow;
 }

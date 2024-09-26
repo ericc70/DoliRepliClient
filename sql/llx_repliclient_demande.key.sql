@@ -21,3 +21,5 @@
 
 --ALTER TABLE llx_repliclient_demande ADD CONSTRAINT llx_repliclient_demande_fk_field FOREIGN KEY (fk_field) REFERENCES llx_repliclient_myotherobject(rowid);
 
+ALTER TABLE `llx_repliclient_demande`
+  ADD CONSTRAINT `llx_repliclient_demande_ibfk_1` FOREIGN KEY (`fk_source`) REFERENCES `llx_repliclient_source` (`rowid`) ON DELETE RESTRICT ON UPDATE RESTRICT;

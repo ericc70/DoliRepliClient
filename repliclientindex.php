@@ -108,7 +108,7 @@ print load_fiche_titre($langs->trans("RepliClientArea"), '', 'repliclient.png@re
 
 print '<div class="fichecenter information">';
 
-print "Page statistique sur version payante";
+print "Page disponible sur version payante";
 print'</div>';
 
 
@@ -119,14 +119,3 @@ $db->close();
 
 ?>
 
-<style>
-
-.fichecenter.information {
-    background-color: #fff88d;;
-    border: 1px solid #b3a805;
-    padding: 10px;
-	color: #333
-
-}
-
-</style>

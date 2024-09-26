@@ -139,7 +139,7 @@ class modRepliClient extends DolibarrModules
 		$this->dirs = array("/repliclient/temp");
 
 		// Config pages. Put here list of php page, stored into repliclient/admin directory, to use to setup module.
-		$this->config_page_url = array("setup.php@repliclient");
+		$this->config_page_url = array("documentation.php@repliclient");
 
 		// Dependencies
 		// A condition to hide module

@@ -866,20 +866,14 @@ class Suivit extends CommonObject
 		if ($selected >= 0) {
 			$return .= '<input id="cb'.$this->id.'" class="flat checkforselect fright" type="checkbox" name="toselect[]" value="'.$this->id.'"'.($selected ? ' checked="checked"' : '').'>';
 		}
-		// if (property_exists($this, 'label')) {
-			// $return .= ' <div class="inline-block opacitymedium valignmiddle tdoverflowmax100">'.$this->fk_user .'</div>';
-		// }
-		if (property_exists($this, 'thirdparty') && is_object($this->thirdparty)) {
-			$return .= '<br><div class="info-box-ref tdoverflowmax150">'.$this->thirdparty->getNomUrl(1).'</div>';
-		}
-		if (property_exists($this, 'amount')) {
-			$return .= '<br>';
-			$return .= '<span class="info-box-label amount">'.price($this->amount, 0, $langs, 1, -1, -1, $conf->currency).'</span>';
-		}
-		if (method_exists($this, 'getLibStatut')) {
-			$return .= '<br><div class="info-box-status">'.$this->getLibStatut(3).'</div>';
-		}
+	
+		$return .= ' <br><div class="inline-block opacitymedium valignmiddle tdoverflowmax150"> Demande Id: '.$this->fk_demande.'</div>';
 		$return .= '<br><div class="">'.$this->duree.'</div>';
+	
+		if (method_exists($this, 'getLibStatut')) {
+			$return .= '<div class="info-box-status">'.$this->getLibStatut(3).'</div>';
+		}
+
 
 		$return .= '</div>';
 		$return .= '</div>';
@@ -932,12 +926,12 @@ class Suivit extends CommonObject
 			$this->labelStatus[self::STATUS_VALIDATED] = $langs->transnoentitiesnoconv('Enabled');
 			$this->labelStatus[self::STATUS_CANCELED] = $langs->transnoentitiesnoconv('Disabled');
 			$this->labelStatus[self::STATUS_APPEL_OK] = $langs->transnoentitiesnoconv('AppelOk');
-			$this->labelStatus[self::STATUS_APPEL_FAIL] = $langs->transnoentitiesnoconv('AppelAbs');
+			$this->labelStatus[self::STATUS_APPEL_FAIL] = $langs->transnoentitiesnoconv('AppelAbsence');
 			$this->labelStatusShort[self::STATUS_DRAFT] = $langs->transnoentitiesnoconv('Draft');
 			$this->labelStatusShort[self::STATUS_VALIDATED] = $langs->transnoentitiesnoconv('Enabled');
 			$this->labelStatusShort[self::STATUS_CANCELED] = $langs->transnoentitiesnoconv('Disabled');
-			$this->labelStatusShort[self::STATUS_CANCELED] = $langs->transnoentitiesnoconv('AppelOk');
-			$this->labelStatusShort[self::STATUS_CANCELED] = $langs->transnoentitiesnoconv('AppelAbs');
+			$this->labelStatusShort[self::STATUS_APPEL_OK] = $langs->transnoentitiesnoconv('Ok');
+			$this->labelStatusShort[self::STATUS_APPEL_FAIL] = $langs->transnoentitiesnoconv('Abs');
 		}
 
 		$statusType = 'status'.$status;

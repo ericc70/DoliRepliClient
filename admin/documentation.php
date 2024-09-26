@@ -96,12 +96,16 @@ print load_fiche_titre($langs->trans($title), $linkback, 'title_setup');
 $head = repliclientAdminPrepareHead();
 print dol_get_fiche_head($head, 'documentation', $langs->trans($title), 0, 'repliclient@repliclient');
 
-// dol_include_once('/repliclient/core/modules/modRepliClient.class.php');
-// $tmpmodule = new modRepliClient($db);
-// print $tmpmodule->getDescLong();
+
 
 
 ?>
+<h2>Modules à activer</h2>
+<ul>
+    <li>ClickToDial</li>
+    <li>API / Web services (serveur REST)</li>
+</ul>
+<hr>
    <h2>Documentation de l'API - Endpoint <code>/api/repliclient/submit</code></h2>
     <p>Cet endpoint permet aux utilisateurs d'envoyer des données au serveur en utilisant la méthode POST. Les données doivent être au format JSON.</p>
     <h2>URL</h2>
@@ -114,14 +118,14 @@ print dol_get_fiche_head($head, 'documentation', $langs->trans($title), 0, 'repl
         <li><strong>Corps de la requête (JSON)</strong> :</li>
     </ul>
     <pre>
-{
-    "name": "John Doe",
-    "telephone":"0606060606",
-    "raison": "Demande d'information",
-    "authkey": "YOUR_KEY"
-}
+        {
+            "name": "John Doe",
+            "telephone":"0606060606",
+            "raison": "Demande d'information",
+            "authkey": "YOUR_KEY"
+        }
     </pre>
-    <h3>Réponse</h3>
+    <h3>Réponses</h3>
     <ul>
         <li><strong>Code 200 succes</strong> : La requête a été traitée avec succès.</li>
         <li><strong>Code 403 Forbidden: Unauthorised</strong> : La clé n'est pas valide</li>
@@ -131,31 +135,53 @@ print dol_get_fiche_head($head, 'documentation', $langs->trans($title), 0, 'repl
 <?php
 print "<hr>";
 print "<section>";
-print "<h2>Exemple de code html</h2>";
+print "<h2>Exemple de code html (boostrap)</h2>";
 
 print "<textarea class='text-html'>";
 $content  = <<<HTML
-<div class='form-container'>
-    <form action=''  id='dolirepliclient'>
-        <div class='form-group'>
-            <label for='name'>Nom</label>
-            <input type='text' id='name' name='name' class='form-control' required>
+    <div class="container">
+            <div class="row">
+                <div class="col-xl-9 mx-auto">
+                    <div class="row align-items-center ">
+                        <div class=" col-12 col-md-4">
+                            <div class="mr-2 mb-2 d-flex ">
+                                <img src="assets/img/phone-call.png" alt="Logo" class="m-auto">
+                            </div>
+                            <div class="text-center">
+                                <h2>Besoin d'un renseignement ?</h2>
+                                <p>On vous rappelle dès que possible.</p>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-8">
+                            
+                            <form action='' id='dolirepliclient'>
+                                <div class='form-group'>
+                                    <label for='name'>Nom</label>
+                                    <input type='text' id='name' name='name' class='form-control' required>
+                                </div>
+                                <div class='form-group'>
+                                    <label for='phone'>Téléphone</label>
+                                    <input type='tel' id='phone' name='phone' class='form-control' required>
+                                </div>
+                                <div class='form-group'>
+                                    <label for='raison'>Raison</label>
+                                    <input type="text" id='raison' name='raison' class='form-control'
+                                        required></textarea>
+                                </div>
+
+                                <input type='hidden' id='authkey' value='__YOUR___KEY___'>
+                                <div class='form-group mt-3'>
+                                   
+                                    <button type='submit' class='btn btn-primary'>Envoyer</button>
+                                </div>
+                                <div id="response-repli"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class='form-group'>
-            <label for='phone'>Téléphone</label>
-            <input type='tel' id='phone' name='phone' class='form-control' required>
-        </div>
-        <div class='form-group'>
-            <label for='reason'>Raison</label>
-           <textarea id='reason' name='reason' class='form-control' required></textarea>
-        </div>
-       
-            <input type='hidden' id='authkey' value='VOTRE_KEY_ICI'>
-        <div class='form-group'>
-            <button type='submit' class='btn btn-primary'>Envoyer</button>
-        </div>
-    </form>
-</div>
+    </section>
 HTML;
 echo  htmlentities($content);
 print "</textarea></section>";
@@ -164,7 +190,55 @@ print "<section>";
 print "<h2>Exemple de code JS(vanilla)</h2>";
 
 print "<textarea class='text-html'>";
+$content  = <<<HTML
 
+document.getElementById('dolirepliclient').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const name = document.getElementById('name').value.trim();
+    const telephone = document.getElementById('phone').value.trim();
+    const raison = document.getElementById('raison').value.trim();
+    const authkey = document.getElementById('authkey').value.trim();
+    const callresponse = document.querySelector('#response-repli')
+
+    // Remplacez cette URL par celle de votre API
+    const apiUrl = '__YOUR__URL__';
+
+    if (!name || !phone || !raison) {
+        callresponse.innerHTML = "Veuillez remplir tous les champs.";
+        console.error('Veuillez remplir tous les champs.');
+        return;
+    }
+
+    const formData = { name, telephone , raison, authkey};
+
+    try {
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:  JSON.stringify(formData)
+        });
+
+
+        if (response.status != 200) {
+            console.error('Erreur lors de l\'envoi des données');
+            return;
+        }
+
+        const result = await response.json();
+
+        if (response.status === 200) {
+            callresponse.innerHTML = "Demande envoyée avec succès !"
+            document.getElementById('dolirepliclient').reset();
+        }
+        // Réinitialisez le formulaire si nécessaire
+        
+    } catch (error) {
+        console.error(error.message);
+    }
+})
+HTML;
+echo  htmlentities($content);
 print "</textarea></section>";
 // Page end
 print dol_get_fiche_end();

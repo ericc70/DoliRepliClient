@@ -57,5 +57,24 @@ MyWidgetDescription = My widget description
 Open = Ouvert
 ToCall = Appeler
 
-AppelOk = Appel abouti
-AppelAbs = Appel en absence
+EndCall= Appel abouti
+FailCall= Appel en absence
+
+Calling = Appel en cours
+CallNotes = Resumé de l'appel
+
+duration = Durée de l'appel
+
+
+AppelAbsence = Appel en absence
+AppelOk = Appel OK
+
+ListSuivi= Historique des appels
+
+
+DateTime = Date-Heure
+
+NewKey = Régénérer la clé
+ActionSupp = Actions supplémentaires
+
+RepliClientArea = Accueil RepliClient

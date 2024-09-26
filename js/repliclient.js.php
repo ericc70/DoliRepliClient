@@ -121,7 +121,7 @@ if (empty($dolibarr_nocache)) {
             if (targetSpan && parentDiv) {
                 // Insérez la nouvelle div avant le span cible
 			//	 targetSpan.innerHTML ="<span>5</span>";
-				targetSpan.insertAdjacentHTML("afterbegin", "<span class ='badge badge-dot badge-status10 ' >"+ nb +"</span>"  )
+				targetSpan.insertAdjacentHTML("afterbegin", "<span class ='badge badge-dot badge-status-1 ' >"+ nb +"</span>"  )
            
             } else {
                 if (!targetSpan) {

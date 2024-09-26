@@ -21,3 +21,7 @@
 
 --ALTER TABLE llx_repliclient_suivit ADD CONSTRAINT llx_repliclient_suivit_fk_field FOREIGN KEY (fk_field) REFERENCES llx_repliclient_myotherobject(rowid);
 
+-- ALTER TABLE `llx_repliclient_suivit` ADD CONSTRAINT `suivit_demadeId` FOREIGN KEY (`fk_demande`) REFERENCES `llx_repliclient_demande`(`rowid`) ON DELETE CASCADE ON UPDATE NO ACTION; 
+
+ALTER TABLE `llx_repliclient_suivit`
+  ADD CONSTRAINT `llx_repliclient_suivit_ibfk_1` FOREIGN KEY (`fk_demande`) REFERENCES `llx_repliclient_demande` (`rowid`) ON DELETE CASCADE ON UPDATE RESTRICT;
