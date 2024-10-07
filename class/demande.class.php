@@ -121,7 +121,7 @@ class Demande extends CommonObject
 		"ip" => array("type"=>"varchar(45)", "label"=>"Ip", "enabled"=>"1", 'position'=>30, 'notnull'=>0, "visible"=>"-1",),
 		"datetime" => array("type"=>"datetime", "label"=>"Datetime", "enabled"=>"1", 'position'=>35, 'notnull'=>0, "visible"=>"-1",),
 		"status" => array("type"=>"int", "label"=>"Status", "enabled"=>"1", 'position'=>500, 'notnull'=>0, "visible"=>"-1", 'arrayofkeyval'=>array('10'=>'Nouveau', '11'=>'Ouvert;', '12'=>'Ferm&eacute;'),),
-		"fk_source" => array("type"=>"integer:Source:repliclient/class/Source.class.php", "label"=>"Source", "enabled"=>"1", 'position'=>45, 'notnull'=>1, "visible"=>"-1", "css"=>"maxwidth500 widthcentpercentminusxx",),
+		"fk_source" => array("type"=>"integer:Source:repliclient/class/source.class.php", "label"=>"Source", "enabled"=>"1", 'position'=>45, 'notnull'=>1, "visible"=>"-1", "css"=>"maxwidth500 widthcentpercentminusxx",),
 	);
 	public $rowid;
 	public $name;
@@ -924,7 +924,7 @@ class Demande extends CommonObject
 			global $langs;
 			//$langs->load("repliclient@repliclient");
 			$this->labelStatus[self::STATUS_DRAFT] = $langs->transnoentitiesnoconv('Draft');
-			$this->labelStatus[self::STATUS_VALIDATED] = "$langs->transnoentitiesnoconv('Enabled')";
+			$this->labelStatus[self::STATUS_VALIDATED] = $langs->transnoentitiesnoconv('Enabled');
 			$this->labelStatus[self::STATUS_NEW] = $langs->transnoentitiesnoconv('New');
 			$this->labelStatus[self::STATUS_OPEN] = $langs->transnoentitiesnoconv('Open');
 			$this->labelStatus[self::STATUS_CLOSED] = $langs->transnoentitiesnoconv('Closed');

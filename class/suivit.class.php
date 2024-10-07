@@ -179,7 +179,7 @@ class Suivit extends CommonObject
 
 		$this->db = $db;
 		$this->ismultientitymanaged = 0;
-		$this->isextrafieldmanaged = 1;
+		$this->isextrafieldmanaged = 0;
 
 		if (!getDolGlobalInt('MAIN_SHOW_TECHNICAL_ID') && isset($this->fields['rowid']) && !empty($this->fields['ref'])) {
 			$this->fields['rowid']['visible'] = 0;
